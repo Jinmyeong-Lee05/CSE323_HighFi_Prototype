@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CourseCompass academic planning prototype">
+  <title>CourseCompass | Welcome</title>
+  <link rel="stylesheet" href="assets/css/landing.css">
+  <script src="assets/js/landing.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="index.html"><span class="logo">✳</span> CourseCompass</a>
+    <nav aria-label="Main navigation">
+      <a href="pages/courses/index.html">Courses</a>
+      <a href="pages/faculty/index.html">Faculty</a>
+      <a href="pages/news/index.html">News</a>
+    </nav>
+    <a class="header-cta" href="pages/courses/planner.html">Open Planner <span id="plan-count" aria-label="Saved courses"></span> ↗</a>
+  </header>
+  <main>
+    <section class="intro">
+      <div class="intro-copy">
+        <div class="eyebrow"><span class="status-dot"></span> STUDENT ACADEMIC HUB <span class="mini-line"></span> CSE 323 DEMO</div>
+        <h1>Your degree,<br><em>a clearer direction.</em></h1>
+        <p>Everything you need to navigate your academic journey — from course requirements to the people and updates that matter.</p>
+        <div class="intro-actions">
+          <a class="button primary" href="pages/courses/index.html">Explore your courses <span>↗</span></a>
+          <a class="button secondary" href="pages/courses/planner.html">View my planner <span>→</span></a>
+        </div>
+        <div class="intro-note">Built to make academic planning less stressful.</div>
+      </div>
+      <div class="journey-card" aria-label="Illustrative course prerequisite chain">
+        <div class="card-top"><span>YOUR ACADEMIC PATH</span><span class="tag">EXAMPLE</span></div>
+        <div class="journey-track"><div class="track-step"><span class="step-dot done">✓</span><div><b>CSE 114</b><small>Computer Science I</small></div><span class="step-meta">Completed</span></div><div class="connector"></div><div class="track-step"><span class="step-dot current">2</span><div><b>CSE 214</b><small>Data Structures</small></div><span class="step-meta accent">In progress</span></div><div class="connector"></div><div class="track-step"><span class="step-dot">3</span><div><b>CSE 320</b><small>Systems Fundamentals II</small></div><span class="step-meta">Upcoming</span></div></div>
+        <div class="card-bottom">Plan smarter. Move forward with confidence. <span>✦</span></div>
+      </div>
+    </section>
+    <section class="features" aria-labelledby="feature-title">
+      <div class="section-header"><div><span class="eyebrow">ONE PLACE, THREE ESSENTIALS</span><h2 id="feature-title">Where would you like to start?</h2></div><p>Select a section to open its own workspace.</p></div>
+      <div class="feature-grid">
+        <a class="feature-card" href="pages/courses/index.html"><span class="feature-num">01 / PLAN</span><span class="feature-icon">▦</span><h3>Courses</h3><p>Visualize prerequisites and specializations. Build your next semester with clarity.</p><span class="feature-go">Explore courses <b>↗</b></span></a>
+        <a class="feature-card" href="pages/faculty/index.html"><span class="feature-num">02 / CONNECT</span><span class="feature-icon">♙</span><h3>Faculty</h3><p>Find professors, see office hours, and prepare to reach out for advising.</p><span class="feature-go">Find faculty <b>↗</b></span></a>
+        <a class="feature-card" href="pages/news/index.html"><span class="feature-num">03 / STAY INFORMED</span><span class="feature-icon">◫</span><h3>News & Updates</h3><p>Stay ahead of curriculum changes and important department announcements.</p><span class="feature-go">Read announcements <b>↗</b></span></a>
+      </div>
+    </section>
+    <section class="planner-banner"><div><span class="eyebrow">CONTINUE YOUR JOURNEY</span><h2>Your course plan is just a click away.</h2><p id="planner-summary">Your saved courses will appear in your planner workspace.</p></div><a class="button banner-button" href="pages/courses/planner.html">Open Course Planner ↗</a></section>
+  </main>
+  <footer><span>✳ CourseCompass</span><span>Interactive academic prototype · Illustrative data only · Not an official university service</span></footer>
+</body>
+</html>
