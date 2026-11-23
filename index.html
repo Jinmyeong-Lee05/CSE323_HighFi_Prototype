@@ -1,364 +1,927 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prototype | CoursePath</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CoursePath — Hi-Fi Prototype</title>
 <style>
-:root{--ink:#142340;--muted:#61718a;--line:#dee6f0;--wash:#f5f8fd;--white:#fff;--blue:#315de5;--blueDark:#2148c2;--softBlue:#eef3ff;--green:#09835d;--greenBg:#e4f7ec;--amber:#986410;--amberBg:#fff3d6;--shadow:0 12px 32px rgba(29,53,91,.07);--radius:17px}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--wash);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);font-size:15px;line-height:1.42}button,select,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #9db8ff;outline-offset:2px}a{color:inherit}.hidden{display:none!important}
-.app-header{height:69px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:16px;position:sticky;top:0;z-index:30}.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:-.7px;font-size:24px}.brandmark{width:35px;height:35px;display:grid;place-items:center;background:var(--blue);color:#fff;border-radius:11px;font-size:21px;font-weight:900}.head-right{display:flex;align-items:center;gap:12px}.head-note{font-size:12px;font-weight:650;color:var(--muted)}.header-link{background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:11px;color:#334562;font-size:13px;font-weight:800}.header-link:hover{background:#f2f6ff}
-.page{max-width:1630px;margin:0 auto;padding:23px 27px 52px}.profile-panel{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--radius);padding:16px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:17px}.profile-label{font-weight:850;font-size:16px;margin-right:8px}.profile-field{display:flex;align-items:center;gap:8px;white-space:nowrap}.profile-field label{color:var(--muted);font-weight:750;font-size:12px}.profile-field select{min-height:40px;padding:8px 11px;border:1px solid #d4deed;background:#fafcff;border-radius:9px;color:var(--ink);font-size:14px;font-weight:700}.toggle-group{display:flex;background:#edf2f9;padding:4px;border-radius:11px;gap:3px}.pill-toggle{padding:9px 15px;border:0;background:transparent;color:#65748b;font-weight:790;border-radius:8px}.pill-toggle.active{background:#fff;color:var(--blue);box-shadow:0 2px 5px rgba(33,64,107,.12)}.subtle-sep{height:27px;width:1px;background:var(--line)}.profile-tip{font-size:12px;color:var(--muted);margin-left:auto;max-width:300px}
-.steps{display:flex;align-items:center;gap:10px;margin:5px 0 17px}.step{display:flex;align-items:center;gap:10px;flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-weight:780;color:#697993;font-size:13px;text-align:left}.step.active{color:#234dcb;background:var(--softBlue);border-color:#a8bcf8}.step.done{color:#087251}.step-num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#e9eef7;font-weight:850;color:#50627b}.step.active .step-num{background:var(--blue);color:#fff}.step.done .step-num{background:#ddf5e8;color:#087251}.step-description{font-size:12px;color:var(--muted);font-weight:500;display:block}
-.workspace{display:grid;grid-template-columns:72px minmax(0,1fr) 295px;gap:15px;align-items:start}.tool-rail{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:13px 9px;min-height:570px;display:flex;flex-direction:column;align-items:center;gap:13px}.rail-btn{width:53px;min-height:59px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:800;background:#f4f7ff;border:1px solid #cbd9fc;color:#294fb2;border-radius:12px}.rail-btn:hover{background:#eaf0ff}.rail-btn svg{width:23px;height:23px}.rail-mini{color:#9aa7b8;font-size:10px;text-align:center;margin-top:8px}.main-card,.side-card{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--radius);overflow:hidden}.main-card{min-height:570px}.card-head{padding:18px 22px 12px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.eyebrow{text-transform:uppercase;font-size:10px;font-weight:900;letter-spacing:1.8px;color:#5671bc}.card-head h1{font-size:27px;letter-spacing:-.9px;line-height:1.15;margin:4px 0 4px}.small-muted{color:var(--muted);font-size:12px}.card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.outline-btn{background:#fff;border:1px solid #cbd8ed;border-radius:10px;padding:10px 12px;font-weight:750;color:#334865}.outline-btn:hover{background:#f2f6ff}.primary-btn{background:var(--blue);color:#fff;border:1px solid var(--blue);border-radius:11px;padding:12px 15px;font-weight:830;box-shadow:0 5px 14px rgba(49,93,229,.16)}.primary-btn:hover:not(:disabled){background:var(--blueDark)}.btn-small{padding:8px 12px;font-size:12px}.tabstrip{display:flex;gap:7px;align-items:center;padding:13px 20px 6px;flex-wrap:wrap}.tab{border:1px solid var(--line);background:#fff;color:#51627b;padding:9px 13px;border-radius:10px;font-weight:810;font-size:13px}.tab.active{background:var(--blue);border-color:var(--blue);color:#fff}.roadmap-wrap{padding:12px 20px 17px}.roadmap-help{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 13px}.legend{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.legend span{font-size:11px;font-weight:750;color:#667891;display:flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:4px;display:inline-block}.dot.todo{background:#e9eff8;border:1px solid #adc0da}.dot.taken{background:#dcf6e7;border:1px solid #7dc9a0}.dot.cart{background:#dce7ff;border:1px solid #96b0fb}.roadmap-scroll{overflow-x:auto;scrollbar-width:thin;padding:8px 4px 12px}.roadmap-inner{position:relative;min-width:690px;min-height:313px}.roadmap-grid{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:10px;position:relative;z-index:2}.roadmap-column{display:flex;flex-direction:column;gap:14px;align-items:stretch}.col-title{font-size:10px;letter-spacing:.65px;text-transform:uppercase;font-weight:900;color:#72839e;margin-bottom:2px;text-align:center;min-height:16px}.node{min-height:69px;border-radius:12px;border:1px solid #c8d7ec;background:#f0f4fa;color:#274065;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 5px;gap:3px;position:relative;font-size:14px;font-weight:880;box-shadow:0 2px 0 rgba(39,61,97,.04)}.node .node-sub{font-size:9px;font-weight:680;color:#75869e;text-align:center;line-height:1.2}.node:hover{outline:2px solid #92adfa;outline-offset:1px}.node.taken{background:var(--greenBg);border-color:#80c8a5;color:#075e41}.node.taken .node-sub{color:#087251}.node.incart{background:#e8eeff;border-color:#91aafa;color:#204cae}.node.incart .node-sub{color:#476fc1}.node.done-and-cart{background:var(--greenBg);border-color:#80c8a5}.path-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible;pointer-events:none}.path-lines path{stroke:#9eafca;stroke-width:2;fill:none}.requirements-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:3px 20px 12px}.summary-chip{border:1px solid var(--line);background:#fbfdff;border-radius:11px;padding:11px}.summary-chip b{display:block;font-size:17px}.summary-chip span{font-size:11px;color:var(--muted)}.required-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;padding:18px 20px}.check-row{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #dde6f2;border-radius:12px;padding:11px;background:#fbfcff}.check-row b{font-size:13px}.check-row small{display:block;color:#8090a6;font-size:11px;margin-top:3px}.status-small{font-weight:830;font-size:11px;padding:5px 7px;border-radius:7px;background:#edf3fa;color:#65758a}.status-small.ok{background:var(--greenBg);color:#14774d}.require-note{font-size:12px;color:var(--muted);padding:0 20px 18px}
-.side-card{position:sticky;top:85px}.cart-head{display:flex;align-items:center;justify-content:space-between;padding:18px 17px 13px;border-bottom:1px solid var(--line)}.cart-title{font-size:18px;font-weight:880;letter-spacing:-.45px}.count-bubble{font-size:12px;font-weight:900;background:#e7eeff;color:#2a56d3;border-radius:20px;padding:5px 9px}.cart-body{padding:13px;min-height:278px;max-height:400px;overflow:auto}.cart-empty{text-align:center;padding:52px 13px;color:#667b95;font-size:13px}.cart-empty .empty-icon{font-size:32px;margin-bottom:8px}.cart-course{animation:cartEnter .23s ease both;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 10px;border:1px solid #e3e9f3;border-radius:11px;margin-bottom:8px;background:#f9fbff}.cart-course strong{font-size:13px}.cart-course small{display:block;color:#73839b;font-size:11px;margin-top:3px}.remove{border:0;background:#e9eef5;color:#60718a;border-radius:7px;padding:4px 8px;font-size:17px}.remove:hover{background:#fbe8e8;color:#a53d3d}.cart-foot{border-top:1px solid var(--line);padding:13px}.cart-foot .primary-btn{width:100%}.text-link{border:0;background:transparent;color:#375fce;font-size:12px;font-weight:820;padding:7px}.cart-helpers{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:10px}.cart-helpers small{color:var(--muted);font-weight:650}.alert{padding:10px 13px;border:1px solid #f0dda9;background:#fff9e8;border-radius:10px;color:#83601e;font-size:12px}.inline-note{margin:12px 20px 20px;padding:10px 12px;border-left:3px solid #bdcdef;color:#63748d;font-size:12px;background:#f8faff}
-/* catalog drawer */.shade{position:fixed;inset:0;background:rgba(14,31,58,.32);z-index:45;opacity:0;pointer-events:none;transition:opacity .2s}.shade.open{opacity:1;pointer-events:auto}.drawer{position:fixed;z-index:46;top:0;bottom:0;left:0;width:min(415px,92vw);background:#fff;box-shadow:22px 0 65px rgba(19,34,60,.16);transform:translateX(-102%);transition:transform .27s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}.drawer.open{transform:translateX(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:22px 23px 12px}.drawer-head h2{font-size:23px;margin:0;letter-spacing:-.5px}.icon-button{border:1px solid var(--line);background:white;border-radius:10px;padding:6px 10px;font-size:19px;color:#50627e}.search-wrap{padding:5px 22px 12px}.search-wrap input{width:100%;border-radius:12px;border:1px solid #cdd8ea;background:#f8faff;padding:13px 14px;font-size:14px;outline:none}.catalog-tabs{display:flex;gap:5px;overflow:auto;padding:0 20px 11px}.catalog-tab{border:0;background:#eef2f9;color:#5d7190;border-radius:9px;padding:9px 10px;font-size:12px;font-weight:820;white-space:nowrap}.catalog-tab.active{background:var(--blue);color:white}.catalog-scroll{overflow-y:auto;flex:1;padding:0 17px 25px}.course-item{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 10px;border:0;border-bottom:1px solid #edf1f6;background:#fff;gap:10px}.course-item:hover{background:#f5f8ff}.course-item strong{font-size:14px}.course-item small{font-size:11px;display:block;color:#74869d;margin-top:3px}.mini-course-status{color:#5671ad;font-size:11px;font-weight:850;flex-shrink:0}.mini-course-status.taken{color:#07875e}.mini-course-status.added{color:#315de5}
-/* dialog */.modal-layer{position:fixed;inset:0;background:rgba(11,28,56,.5);display:grid;place-items:center;z-index:60;padding:15px}.modal{width:min(510px,100%);background:#fff;border-radius:22px;padding:26px;box-shadow:0 35px 100px rgba(6,23,52,.25)}.modal-top{display:flex;justify-content:space-between;gap:13px}.modal h2{margin:4px 0 8px;font-size:25px;letter-spacing:-.6px}.modal-course-type{color:var(--muted);font-size:12px;font-weight:800}.modal p{color:#61728a;margin:10px 0 18px}.modal-spec{background:#f5f8fe;border:1px solid #e0e8f4;padding:12px;border-radius:12px;display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:16px}.modal-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}.modal-buttons button{padding:12px 10px}.modal-buttons button:last-child{grid-column:span 2}
-@keyframes cartEnter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-/* task 2 */.results-layout{display:grid;grid-template-columns:minmax(0,1fr) 295px;gap:16px}.results-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}.results-pad{padding:20px}.section-title{margin:0 0 5px;font-size:28px;letter-spacing:-.85px}.results-top{display:flex;align-items:center;justify-content:space-between;gap:13px;flex-wrap:wrap}.light-badge{display:inline-block;font-size:11px;font-weight:850;padding:6px 9px;background:#f3f5fa;color:#60738e;border-radius:7px}.availability-list{margin-top:18px;display:flex;flex-direction:column;gap:8px}.availability-row{border:1px solid #e1e8f3;background:#fff;border-radius:12px;padding:12px 15px;display:grid;grid-template-columns:minmax(160px,1fr) 180px 165px;gap:12px;align-items:center}.availability-row b{font-size:14px}.availability-row small{color:#71829b;display:block;font-size:11px;margin-top:3px}.availability-status{font-size:12px;font-weight:820}.availability-status.good{color:#078557}.availability-status.mid{color:#a36814}.availability-status.low{color:#a33d43}.estimate{font-weight:830;color:#314f82;font-size:13px}.evidence-list{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.evidence{padding:4px 6px;border-radius:5px;background:#f0f5fb;color:#5f7393;font-size:10px;font-weight:760}.recommend-box{background:linear-gradient(155deg,#244cb9,#112e7b);color:white;padding:22px;border-radius:16px;margin:17px}.recommend-box h3{margin:3px 0 8px;font-size:21px}.recommend-box p{color:#d8e3ff;font-size:13px}.recommend-box .primary-btn{background:#fff;color:#1b46ad;border-color:white;width:100%;margin-top:13px}.warn-list{padding-left:19px;color:#6f5c37;font-size:12px;line-height:1.6}.info-title{font-weight:860;font-size:16px;margin:0 0 7px}
-/* task 3 */.schedule-stack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:19px}.schedule-card{background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow);padding:15px;display:flex;flex-direction:column;gap:12px}.schedule-card.recommended{border:2px solid #7699f6}.schedule-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}.schedule-heading h3{font-size:17px;letter-spacing:-.3px;margin:0}.semester-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;flex:1}.semester{border:1px solid #e5ebf5;background:#f8faff;border-radius:11px;padding:10px;min-height:100px}.semester h4{font-size:12px;color:#50688c;margin:0 0 9px}.sem-course{display:block;background:#fff;color:#273f66;border:1px solid #e1e8f2;border-radius:6px;padding:5px 7px;margin-bottom:5px;font-size:11px;font-weight:810}.semester .empty-line{font-size:11px;color:#a3afc1}.schedule-card .primary-btn{margin-top:auto;width:100%}.final-result{display:grid;grid-template-columns:260px minmax(0,1fr);gap:17px;margin-top:15px}.final-result .semester-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.final-result .semester{min-height:205px}.final-result .sem-course{font-size:13px;padding:9px}.final-hero{border-radius:16px;background:#e9f8ee;border:1px solid #b9e3c9;padding:22px}.final-hero h3{margin:7px 0 3px;font-size:24px}.final-hero p{font-size:13px;color:#4d7961}.show-print{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-/* smooth animation */.loading-overlay{position:fixed;inset:0;background:rgba(243,247,255,.90);backdrop-filter:blur(7px);display:grid;place-items:center;z-index:70}.loading-card{width:min(415px,90vw);background:white;border:1px solid #dfe8fb;border-radius:24px;padding:31px;box-shadow:0 26px 90px rgba(20,48,100,.15);text-align:center}.orb{width:76px;height:76px;border:5px solid #dfebff;border-top-color:#315de5;border-right-color:#96b2fa;border-radius:50%;margin:0 auto 19px;animation:spin 1.15s linear infinite}.loading-card h2{margin:0 0 8px;font-size:22px}.loading-card p{margin:0;color:#73849c;font-size:13px;min-height:18px}.loading-track{height:7px;background:#eaf0fa;border-radius:10px;overflow:hidden;margin:23px 0 10px}.loading-fill{height:100%;width:4%;background:linear-gradient(90deg,#5480f6,#315de5);border-radius:10px;transition:width .6s ease}.loading-percent{font-size:11px;color:#8a9bb5;font-weight:790}@keyframes spin{to{transform:rotate(360deg)}}
-.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,15px);opacity:0;background:#1d3154;color:#fff;border-radius:12px;padding:12px 18px;font-size:13px;box-shadow:0 14px 44px #1426423b;z-index:90;pointer-events:none;transition:opacity .2s, transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1180px){.page{padding:17px 15px}.workspace{grid-template-columns:62px minmax(0,1fr) 265px;gap:10px}.results-layout{grid-template-columns:minmax(0,1fr) 265px}.schedule-stack{grid-template-columns:1fr}.schedule-card .semester-grid{grid-template-columns:repeat(4,1fr)}.profile-tip{display:none}}
-@media(max-width:880px){.app-header{padding:0 14px;height:62px}.brand{font-size:19px}.head-note{display:none}.page{padding:11px}.profile-panel{padding:13px;gap:10px}.profile-label{width:100%}.steps{gap:5px}.step{padding:9px 7px;font-size:10px;gap:5px}.step-description{display:none}.step-num{width:21px;height:21px}.workspace{grid-template-columns:1fr}.tool-rail{min-height:auto;flex-direction:row;padding:8px}.rail-btn{min-height:50px;width:110px;flex-direction:row;font-size:12px}.rail-mini{display:none}.side-card{position:static}.cart-body{min-height:80px;max-height:230px}.main-card{min-height:480px}.card-head{padding:16px}.card-head h1{font-size:24px}.results-layout{grid-template-columns:1fr}.availability-row{grid-template-columns:minmax(120px,1fr) minmax(110px,1fr)}.availability-row>div:last-child{grid-column:span 2}.final-result{grid-template-columns:1fr}.final-result .semester-grid{grid-template-columns:1fr 1fr}.schedule-card .semester-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:500px){.header-link{display:none}.profile-field{width:calc(50% - 5px)}.profile-field select{max-width:100%;width:100%}.subtle-sep{display:none}.card-actions{gap:5px}.requirements-summary{grid-template-columns:1fr 1fr}.tabstrip{padding:11px}.tab{padding:8px 10px}.step{font-size:10px}.step>span:nth-child(2){line-height:1.1}.section-title{font-size:24px}.schedule-card .semester-grid,.final-result .semester-grid{grid-template-columns:1fr 1fr}.modal-buttons{grid-template-columns:1fr}.modal-buttons button:last-child{grid-column:auto}}
-@media print{.app-header,.steps,.tool-rail,.profile-panel,.side-card,.show-print,.no-print{display:none!important}.page{max-width:none}.final-result{grid-template-columns:1fr}.main-card,.results-card{box-shadow:none}.final-result .semester-grid{grid-template-columns:repeat(4,1fr)} }
+:root{
+  --blue:#2f5bd8;--blue-soft:#edf2ff;--blue-line:#c9d6f6;
+  --ink:#192b46;--muted:#5f6f86;--line:#dfe6f0;--bg:#f7f9fc;--card:#fff;
+  --green:#0a7a52;--green-soft:#e7f6ef;--amber:#9a5d0c;--amber-soft:#fff4e0;
+  --red:#b3261e;--red-soft:#fdecea;--grey:#8a97aa;--grey-soft:#f1f3f7;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:96px}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.small{font-size:14px}
 
-/* Revised three-column course planning layout */
-.workspace{grid-template-columns:252px minmax(0,1fr) 282px;gap:13px}
-.course-sidebar{position:sticky;top:83px;left:auto;bottom:auto;width:100%;height:calc(100vh - 100px);min-height:520px;max-height:760px;transform:none!important;z-index:3;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.course-sidebar .drawer-head{padding:18px 15px 10px}.course-sidebar .drawer-head h2{font-size:19px}
-.course-sidebar .search-wrap{padding:6px 12px 11px}.course-sidebar .search-wrap input{font-size:13px;padding:11px 10px}
-.course-sidebar .catalog-tabs{padding:0 10px 10px;gap:3px}.course-sidebar .catalog-tab{padding:7px 8px;font-size:10px}
-.course-sidebar .catalog-scroll{padding:0 9px 15px}.course-sidebar .course-item{padding:10px 6px}
-.course-sidebar .course-item strong{font-size:12px}.course-sidebar .course-item small{font-size:10px}
-.course-sidebar .mini-course-status{font-size:10px}
-.roadmap-wrap{padding:15px 20px 19px}
-.roadmap-scroll{padding:13px 8px 23px;overflow-x:auto}
-.roadmap-inner{min-width:590px;min-height:335px;max-width:930px;margin:0 auto}
-.roadmap-grid{grid-template-columns:repeat(6,minmax(76px,1fr));column-gap:14px}
-.roadmap-column{gap:24px;align-items:center}
-.roadmap-column:nth-child(2){padding-top:22px}.roadmap-column:nth-child(3){padding-top:45px}
-.roadmap-column:nth-child(4){padding-top:12px}.roadmap-column:nth-child(5){padding-top:37px}.roadmap-column:nth-child(6){padding-top:19px}
-.col-title{font-size:9px;min-height:16px;white-space:nowrap}
-.node{width:100%;max-width:100px;min-height:48px;padding:6px 4px;gap:2px;border-radius:9px;font-size:11px;box-shadow:none}
-.node .node-sub{font-size:8px;line-height:1.15}
-.path-lines path{stroke:#d0daea;stroke-width:1.4;opacity:.66}
-.requirements-summary{margin-top:5px}
-.degree-requirements{margin:11px 20px 0;border:1px solid #c9d9f3;background:#f8fbff;border-radius:11px;overflow:hidden}
-.degree-requirements summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:840;color:#2a4e91;font-size:13px}
-.degree-requirements summary::-webkit-details-marker{display:none}
-.degree-requirements summary small{display:block;color:#6b7f9c;font-weight:520;font-size:10px;margin-top:2px}
-.degree-requirements[open] .summary-caret{transform:rotate(180deg)}.summary-caret{transition:transform .2s}
-.degree-content{padding:14px;border-top:1px solid #dce7f5;background:#fff;color:#334761;font-size:12px;line-height:1.5}
-.degree-content .degree-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.degree-content h3{font-size:13px;color:#213f78;margin:3px 0 6px}
-.degree-content p{margin:6px 0}.degree-content ul{margin:4px 0 10px;padding-left:18px}
-.degree-content .degree-warning{border-left:3px solid #e0b25b;background:#fff9ed;padding:9px 11px;margin:9px 0 0;border-radius:5px}
-.sem-course{font-size:11px;line-height:1.34;padding:7px 8px}
-.sem-course strong{display:block;font-size:12px;color:#263e68}
-.sem-course small{display:block;margin-top:3px;color:#73839a;font-size:10px;line-height:1.35;font-weight:550;overflow-wrap:anywhere}
-.semester h4{font-size:12px}
-.final-result .sem-course{font-size:12px;padding:10px}
-.final-result .sem-course small{font-size:11px}
-@media(max-width:1240px){.workspace{grid-template-columns:214px minmax(0,1fr) 246px;gap:10px}.roadmap-inner{min-width:550px}.roadmap-grid{column-gap:8px}.node{max-width:88px}.course-sidebar .catalog-tab{padding:7px 6px;font-size:9px}}
-@media(max-width:940px){.workspace{grid-template-columns:1fr 255px}.course-sidebar{grid-column:1/-1;position:static;height:235px;min-height:0;max-height:none}.course-sidebar .catalog-scroll{padding-bottom:10px}.course-sidebar .catalog-tabs{justify-content:flex-start}.main-card{grid-column:1}.side-card{grid-column:2;position:sticky;top:75px}.roadmap-inner{min-width:550px}.degree-content .degree-cols{grid-template-columns:1fr 1fr}}
-@media(max-width:690px){.workspace{grid-template-columns:1fr}.course-sidebar,.main-card,.side-card{grid-column:1}.course-sidebar{height:215px}.side-card{position:static}.degree-content .degree-cols{grid-template-columns:1fr}.roadmap-inner{min-width:575px}.schedule-stack{grid-template-columns:1fr}}
+/* Top bar + task stepper */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.topbar-in{max-width:1280px;margin:auto;padding:10px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:22px;letter-spacing:-.8px}.logo span{color:var(--blue)}
+.stepper{display:flex;gap:6px;flex:1;justify-content:center;flex-wrap:wrap}
+.stepper div{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:14px;color:var(--grey)}
+.stepper div b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--grey-soft);font-size:13px}
+.stepper div.active{background:var(--blue-soft);color:var(--blue)}.stepper div.active b{background:var(--blue);color:#fff}
+.stepper div.done{color:var(--green)}.stepper div.done b{background:var(--green-soft);color:var(--green)}
+#profileTag{font-size:14px;color:var(--muted)}
 
-/* Specialization: additional course pathway beneath the core CSE roadmap */
-.specialization-roadmap{margin:0 20px 18px;padding:16px;border:1px solid #d6e3fa;border-radius:14px;background:#f8fbff}
-.specialization-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.specialization-heading h3{margin:0;font-size:17px;color:#243d71}
-.specialization-heading small{color:#62758e;font-size:11px}
-.specialization-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.specialization-group{padding:12px;border:1px solid #e0e8f5;background:white;border-radius:12px}
-.specialization-group h4{font-size:12px;margin:0 0 9px;color:#4c6388}
-.specialization-course-list{display:flex;gap:7px;flex-wrap:wrap}
-.specialization-node{border:1px solid #c7d6ec;background:#edf3fc;color:#28436a;padding:7px 9px;border-radius:9px;font-size:11px;font-weight:800;cursor:pointer}
-.specialization-node.taken{background:#dcf6e7;border-color:#80c8a5;color:#075e41}
-.specialization-node.incart{background:#dce7ff;border-color:#91aafa;color:#204cae}
-.specialization-note{margin:11px 0 0;color:#5c6e88;font-size:11px;line-height:1.5}
-@media(max-width:940px){.specialization-groups{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.specialization-groups{grid-template-columns:1fr}}
-.task2-course{border:1px solid #dce5f3;border-radius:13px;padding:16px;background:#fff}
-.task2-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
-.task2-top strong{font-size:14px;color:#1d3152}.task2-muted{font-size:11px;color:#71829b;margin-top:5px}
-.task2-prob{font-size:12px;font-weight:800;background:#edf3ff;color:#254a9e;padding:7px 10px;border-radius:8px;white-space:nowrap}
-.task2-controls{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;margin-top:14px}
-.task2-controls label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:750;color:#5c6d86}
-.task2-controls select{width:100%;min-width:0;padding:10px 8px;border:1px solid #ccd8e9;border-radius:8px;background:white;color:#213452;font-size:12px}
-.task2-warning{font-size:11px;color:#9b681d;margin-top:10px}
-@media(max-width:600px){.task2-controls{grid-template-columns:1fr}}
-.planning-notes{display:flex;flex-direction:column;gap:12px}.planning-note{background:#f7faff;border:1px solid #dce5f3;border-radius:11px;padding:12px;display:flex;flex-direction:column;gap:8px}.planning-note strong{font-size:13px;color:#203a67}.note-label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;color:#526583}.note-label select{width:100%;padding:9px 6px;border:1px solid #cbd7e7;border-radius:7px;background:#fff;color:#213452;font-size:12px}.note-label.hidden{display:none}#generateSchedulesBtn:disabled{opacity:.45;cursor:not-allowed}
+.wrap{max-width:1280px;margin:auto;padding:24px}
+h1{font-size:30px;letter-spacing:-.6px;margin:0 0 4px}
+h2{font-size:21px;margin:0 0 10px}
+h3{font-size:17px;margin:0}
+.page-head{margin-bottom:18px}.page-head p{margin:0;color:var(--muted);font-size:17px}
+
+/* Buttons */
+.btn{border:1.5px solid var(--blue-line);background:#fff;color:var(--blue);border-radius:10px;padding:10px 18px;font-weight:750;min-height:44px;transition:background .15s,transform .15s,box-shadow .15s}
+.btn:hover:not(:disabled){background:var(--blue-soft)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover:not(:disabled){background:#2449b8;box-shadow:0 6px 16px #2f5bd833}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.danger{color:var(--red);border-color:#efc6c2}.btn.danger:hover{background:var(--red-soft)}
+.btn.sm{min-height:34px;padding:6px 12px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.course:focus-visible,.req-toggle:focus-visible,.plan-card:focus-visible,.seg button:focus-visible,select:focus-visible{outline:3px solid #9db4ff;outline-offset:2px}
+
+/* Landing / profile */
+.landing{max-width:860px;margin:48px auto 30px}
+.landing h1{font-size:44px;line-height:1.1;letter-spacing:-1.5px}
+.landing>p{font-size:19px;color:var(--muted);margin:10px 0 18px}
+.scope-notice{display:flex;gap:12px;align-items:flex-start;background:var(--blue-soft);border:1.5px solid var(--blue-line);color:var(--ink);border-radius:12px;padding:13px 16px;margin-bottom:22px;font-size:15px}
+.scope-notice .scope-ico{flex:none;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;margin-top:1px}
+.profile-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+.field{margin-bottom:4px}
+.field label,.field .lbl{display:block;font-weight:750;font-size:14px;margin-bottom:7px}
+select{appearance:none;-webkit-appearance:none;width:100%;min-height:50px;border:1.5px solid #c6d3e5;border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%235f6f86' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 18px center;padding:12px 48px 12px 16px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:1.5px solid #c6d3e5;background:#fff;border-radius:10px;padding:11px 20px;font-weight:700;min-height:50px}
+.seg button.on{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+/* sliding reveal instead of appear/disappear */
+.slide{display:grid;grid-template-rows:0fr;opacity:0;transform:translateY(-8px);transition:grid-template-rows .35s ease,opacity .35s ease,transform .35s ease}
+.slide>div{overflow:hidden}
+.slide.open{grid-template-rows:1fr;opacity:1;transform:none}
+.slide>div>.field{padding-top:18px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.profile-actions{margin-top:22px;display:flex;justify-content:flex-end}
+
+/* Task 1 layout */
+.t1{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px}
+.req-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;transition:border-color .15s,box-shadow .15s,background .15s}
+.req-toggle:hover{border-color:var(--blue);background:#fbfcff;box-shadow:0 4px 14px #2f5bd81a}
+.req-toggle .t{font-weight:800;font-size:17px;color:var(--blue)}
+.req-toggle .chev{transition:transform .25s;color:var(--blue);font-weight:900}
+.req-toggle[aria-expanded=true] .chev{transform:rotate(180deg)}
+.req-pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--grey-soft);color:var(--muted)}
+.pill.ok{background:var(--green-soft);color:var(--green)}
+.pill.warn{background:var(--amber-soft);color:var(--amber)}
+.req-body{padding:4px 18px 16px}
+.req-row{display:grid;grid-template-columns:200px 1fr auto;gap:14px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.req-row:first-child{border-top:0}
+.req-row .codes{font-size:14px;color:var(--muted)}
+.req-row .codes s{color:var(--green);text-decoration:none}
+.bar{height:8px;border-radius:9px;background:var(--grey-soft);overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--green)}
+.catalog-note{font-size:13px;color:var(--muted);margin:10px 0 0}
+
+.roadmap{padding:18px 18px 8px;margin-top:14px;border:2px solid var(--blue-line)}
+.roadmap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.roadmap-head h2{margin:0;font-size:24px}
+.suggested-credits{min-width:230px;max-width:310px;flex:1;background:#f8faff;border:1.5px solid var(--blue-line);border-radius:12px;padding:10px 13px}
+.suggested-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
+.suggested-top strong{font-size:16px}
+.suggested-track{height:8px;background:#e7ecf5;border-radius:99px;overflow:hidden;margin:8px 0 5px}
+.suggested-fill{height:100%;width:0;background:var(--blue);border-radius:99px;transition:width .2s,background .2s}
+.suggested-credits.good{border-color:#9fd6bd;background:var(--green-soft)}
+.suggested-credits.good .suggested-fill{background:var(--green)}
+.suggested-credits.over{border-color:#edc98d;background:var(--amber-soft)}
+.suggested-credits.over .suggested-fill{background:#c17a18}
+.suggested-message{font-size:12px;color:var(--muted)}
+.suggested-credits.good .suggested-message{color:var(--green)}
+.suggested-credits.over .suggested-message{color:var(--amber)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;border:1.5px solid}
+.cols{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.col h3{font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.course{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid #cfd9e8;border-radius:10px;padding:9px 11px;margin-bottom:8px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.course:hover{transform:translateY(-2px);box-shadow:0 6px 14px #18294a14;border-color:var(--blue)}
+.course .code{font-weight:800;font-size:15px;display:flex;justify-content:space-between;gap:6px}
+.course .name{display:block;font-size:13px;color:var(--muted);line-height:1.3;margin-top:2px}
+.course .st{display:block;font-size:12px;font-weight:700;margin-top:5px}
+.course.taken{background:var(--green-soft);border-color:#9fd6bd}.course.taken .st{color:var(--green)}
+.course.cart{background:var(--blue-soft);border-color:var(--blue)}.course.cart .st{color:var(--blue)}
+.course.locked{background:var(--grey-soft);border-style:dashed}.course.locked .st{color:var(--grey)}
+.course.flash{animation:flash .9s}
+@keyframes flash{0%{box-shadow:0 0 0 0 #2f5bd866}100%{box-shadow:0 0 0 12px #2f5bd800}}
+
+.cart{position:sticky;top:76px}
+.cart-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);background:none;border-width:0 0 1px;width:100%;text-align:left}
+.cart-head h2{margin:0;font-size:19px}
+.count{background:var(--blue);color:#fff;border-radius:999px;font-size:13px;font-weight:800;padding:2px 10px}
+.cart-list{max-height:52vh;overflow:auto;padding:6px 10px}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 6px;border-bottom:1px solid var(--line);animation:slideIn .3s both}
+.cart-item:last-child{border:0}
+.cart-item b{font-size:15px}.cart-item span{display:block;font-size:13px;color:var(--muted);line-height:1.3}
+.x{border:0;background:var(--grey-soft);border-radius:8px;width:32px;height:32px;font-weight:900;color:var(--muted)}
+.x:hover{background:var(--red-soft);color:var(--red)}
+.cart-foot{padding:12px 16px;border-top:1px solid var(--line);font-size:14px;display:flex;justify-content:space-between}
+.empty{padding:22px 10px;color:var(--grey);font-size:14px;text-align:center}
+@keyframes slideIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+
+/* Modal */
+.backdrop{position:fixed;inset:0;background:#0f1d3366;display:grid;place-items:center;z-index:50;padding:16px;animation:fade .2s}
+.modal{background:#fff;border-radius:18px;max-width:520px;width:100%;padding:24px;box-shadow:0 30px 60px #0f1d3340;animation:pop .22s}
+.modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.modal .kicker{font-size:13px;font-weight:800;color:var(--blue);letter-spacing:.5px;text-transform:uppercase}
+.modal h2{font-size:26px;margin:2px 0 0}
+.modal .title{font-size:17px;font-weight:650;margin:0 0 12px}
+.modal .desc{color:var(--muted);margin:0 0 14px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:var(--bg);border-radius:12px;padding:12px;margin-bottom:14px;font-size:14px}
+.facts b{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.lockmsg{background:var(--amber-soft);color:#6d4508;border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:14px}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:scale(.96) translateY(8px)}}
+
+/* Toast */
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:#192b46;color:#fff;padding:11px 18px;border-radius:10px;font-weight:650;opacity:0;transition:.25s;z-index:60;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%)}
+
+/* Bottom action bar: Back / status / Next always in the same place */
+.actionbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);z-index:30}
+.actionbar-in{max-width:1280px;margin:auto;padding:12px 24px;display:flex;align-items:center;gap:14px}
+.actionbar .status{flex:1;text-align:center;font-weight:650;color:var(--muted);font-size:15px}
+.actionbar .status.ok{color:var(--green)}
+
+/* Task 2 */
+.t2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+.opr{padding:18px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line)}
+thead th{font-size:13px;color:var(--muted);font-weight:750;vertical-align:bottom}
+.th-group{text-align:center;color:var(--ink);font-size:14px}
+.info-btn{border:1.5px solid var(--blue-line);background:var(--blue-soft);color:var(--blue);border-radius:50%;width:24px;height:24px;font-weight:900;font-size:13px;margin-left:6px;line-height:1}
+.info-pop{background:#192b46;color:#fff;border-radius:12px;padding:14px 16px;font-size:14px;margin:0 0 12px;text-align:left;font-weight:400}
+.info-pop b{color:#fff}
+.rate{display:inline-block;min-width:66px;text-align:center;border-radius:8px;padding:4px 6px;font-weight:750;font-size:14px}
+.rate.likely{background:var(--green-soft);color:var(--green)}
+.rate.unsure{background:var(--amber-soft);color:var(--amber)}
+.rate.unlikely{background:var(--red-soft);color:var(--red)}
+.rate.none{background:var(--grey-soft);color:var(--grey)}
+td .cname{display:block;font-size:12px;color:var(--muted)}
+.rate-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:12px;color:var(--muted)}
+
+.notes{border:2px solid var(--blue);padding:18px;box-shadow:0 10px 30px #2f5bd814}
+.notes-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.notes-head h2{margin:0;font-size:24px}
+.progress{height:8px;background:var(--grey-soft);border-radius:9px;overflow:hidden;margin:6px 0 14px}.progress i{display:block;height:100%;background:var(--green);transition:width .4s}
+.note{border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;transition:border-color .2s,background .2s}
+.note.open{border-color:var(--amber);background:#fffdf8}
+.note.done{border-color:#9fd6bd;background:var(--green-soft)}
+.note-top{display:flex;gap:10px;align-items:flex-start}
+.note-ico{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:900;background:var(--amber-soft);color:var(--amber)}
+.note.done .note-ico{background:#fff;color:var(--green)}
+.note h3{font-size:16px}
+.note p{margin:3px 0 0;font-size:14px;color:var(--muted)}
+.opts{margin:12px 0 0 40px;display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;cursor:pointer;font-size:14px}
+.opt:hover{border-color:var(--blue)}
+.opt input{margin-top:3px;accent-color:var(--blue)}
+.opt.sel{border-color:var(--blue);background:var(--blue-soft)}
+.opt b{display:block;font-size:15px}
+.note-actions{margin:10px 0 0 40px;display:flex;gap:8px}
+.note .result{margin:6px 0 0 40px;font-size:14px;color:var(--green);font-weight:650}
+
+/* Task 3 */
+.plan-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.plan-card{position:relative;display:flex;flex-direction:column;justify-content:flex-start;text-align:left;background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.plan-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px #18294a14}
+.plan-card.viewing{border-color:var(--blue-line);box-shadow:0 0 0 3px var(--blue-soft)}
+.plan-card.selected{border-color:var(--green);box-shadow:0 0 0 4px #0a7a5226;background:#fbfffd}
+.plan-card .badge{position:absolute;top:12px;right:12px;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px}
+.badge.view{background:var(--blue-soft);color:var(--blue)}
+.badge.sel{background:var(--green);color:#fff}
+.plan-card h3{font-size:19px}
+.plan-card p{margin:3px 0 10px;color:var(--muted);font-size:14px}
+.minibars{display:flex;gap:8px;align-items:flex-end;height:66px;margin:6px 0 4px}
+.minibars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:12px;font-weight:700;gap:3px}
+.minibars i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:#8aa6ef}
+.minibars i.heavy{background:#e2a24a}
+.minilabels{display:flex;gap:8px;font-size:11px;color:var(--muted)}.minilabels span{flex:1;text-align:center}
+.plan-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;margin-top:10px}
+.plan-stats div{background:var(--bg);border-radius:8px;padding:6px 8px}.plan-stats b{display:block;font-size:15px}
+
+.detail{padding:18px}
+.detail-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.detail-head h2{margin:0;font-size:23px}
+.terms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.term{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px}
+.term-h{margin-bottom:10px}
+.term-h h3{font-size:17px}
+.term-h .cr{font-size:15px;font-weight:800}
+.load{font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:6px}
+.load.light{background:var(--green-soft);color:var(--green)}.load.moderate{background:var(--blue-soft);color:var(--blue)}.load.heavy{background:var(--amber-soft);color:var(--amber)}
+.pc{background:#fff;border:1px solid #d6e0ee;border-radius:10px;padding:9px 10px;margin-bottom:8px}
+.pc b{font-size:15px}.pc>span:not(.tag){display:block;font-size:13px;color:var(--muted);line-height:1.3}
+.tag{display:inline-block;margin-top:5px;font-size:12px;font-weight:750;border-radius:6px;padding:2px 7px;margin-right:4px}
+.tag.tent{background:var(--amber-soft);color:var(--amber)}
+.tag.seq{background:var(--blue-soft);color:var(--blue)}
+.tag.elec{background:#f1ecff;color:#5b3fb0}
+.unplaced{margin-top:12px;background:var(--red-soft);color:var(--red);border-radius:10px;padding:10px 12px;font-size:14px}
+
+.final-top{display:flex;gap:14px;align-items:center;background:var(--green-soft);border:1px solid #9fd6bd;border-radius:14px;padding:14px 18px;margin-bottom:16px}
+.final-top .big{font-size:28px}
+.final-top p{margin:0;color:#145c40}
+
+/* Print preview */
+.sheet{background:#fff;max-width:900px;margin:auto;padding:30px;border-radius:6px}
+.sheet h1{font-size:24px}.sheet .terms{grid-template-columns:repeat(4,1fr)}
+.sheet .term{background:#fff}
+@media print{
+  body{background:#fff;padding:0}
+  body>*:not(#printLayer){display:none!important}
+  #printLayer{position:static!important;background:none!important;display:block!important;padding:0!important}
+  #printLayer .no-print{display:none!important}
+  .sheet{padding:0;max-width:none}
+}
+
+@media(max-width:1050px){.t1{grid-template-columns:1fr}.cart{position:static}.cols{grid-template-columns:repeat(3,minmax(0,1fr))}.t2{grid-template-columns:1fr}.terms{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-cards{grid-template-columns:1fr}}
+@media(max-width:640px){.wrap{padding:16px}.topbar-in{padding:10px 16px}.stepper div span{display:none}.cols{grid-template-columns:repeat(2,minmax(0,1fr))}.row2{grid-template-columns:1fr}.req-row{grid-template-columns:1fr}.terms{grid-template-columns:1fr}.landing h1{font-size:32px}.actionbar-in{padding:10px 16px}.actionbar .status{font-size:13px}.facts{grid-template-columns:1fr 1fr}.opts,.note-actions,.note .result{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Minimal legibility adjustments; preserve the original layout */
+.history-cell{font-size:12px;line-height:1.45;color:#40556c;min-width:108px}
+#oprTable{table-layout:auto}#oprTable th,#oprTable td{vertical-align:middle}
+.course .name{overflow-wrap:anywhere} .panel{min-width:0}
+@media(max-width:900px){.history-cell{min-width:85px;font-size:11px}}
 </style>
 </head>
 <body>
-<header class="app-header"><div class="brand"><span class="brandmark">C</span><span>CoursePath</span></div><div class="head-right"><span class="head-note">SUNY Korea · Computer Science</span><button class="header-link" id="restartBtn" type="button">Start over</button></div></header>
-<div class="page">
-<div class="profile-panel" id="profilePanel"><span class="profile-label">My academic profile</span><div class="profile-field"><label for="entryYear">Entered</label><select id="entryYear"><option>2023</option><option>2024</option><option selected>2025</option><option>2026</option><option>2027</option></select></div><div class="profile-field"><label for="entryTerm">Term</label><select id="entryTerm"><option>Spring</option><option selected>Fall</option></select></div><div class="toggle-group" aria-label="Student type"><button type="button" class="pill-toggle active" data-student="new">New student</button><button type="button" class="pill-toggle" data-student="transfer">Transfer</button></div><span class="subtle-sep"></span><div class="toggle-group" aria-label="Degree path"><button type="button" class="pill-toggle active" data-degree="major">CSE Major</button><button type="button" class="pill-toggle" data-degree="minor">CSE Minor</button></div><div class="profile-field" id="specializationWrap"><label for="specializationSelect">Specialization</label><select id="specializationSelect"><option value="none">None</option><option value="ai">AI & Data Science</option><option value="hci">Human-Computer Interaction</option><option value="game">Game Programming</option><option value="security">Security & Privacy</option><option value="systems">Systems Software Development</option></select></div><div class="profile-field hidden" id="minorDeclareWrap"><label for="minorCatalog">Minor declared</label><select id="minorCatalog"><option value="prior">Before Fall 2025</option><option value="later" selected>Fall 2025 or later</option></select></div><span class="profile-tip">Your catalog path updates based on the entry term.</span></div>
-<div class="steps" aria-label="Main tasks"><button class="step active" id="step1" type="button"><span class="step-num">1</span><span>Choose courses<span class="step-description">Course roadmap & cart</span></span></button><button class="step" id="step2" type="button"><span class="step-num">2</span><span>Check availability<span class="step-description">AI-style analysis</span></span></button><button class="step" id="step3" type="button"><span class="step-num">3</span><span>Select a plan<span class="step-description">Four semesters</span></span></button></div>
-<section id="planningView" class="workspace">
- <aside class="drawer course-sidebar" id="catalogDrawer" aria-label="Course list" aria-hidden="false"><div class="drawer-head"><div><div class="eyebrow">COURSE LIST</div><h2>Browse courses</h2></div></div><div class="search-wrap"><input id="searchCourses" type="search" placeholder="Search courses…" aria-label="Search courses" /></div><div class="catalog-tabs"><button class="catalog-tab active" data-filter="all" type="button">All</button><button class="catalog-tab" data-filter="cse" type="button">CSE</button><button class="catalog-tab" data-filter="math" type="button">Math</button><button class="catalog-tab" data-filter="science" type="button">Science</button><button class="catalog-tab" data-filter="sbc" type="button">SBU / SBC</button></div><div class="catalog-scroll" id="courseResults"></div></aside>
- <main class="main-card"><div class="card-head"><div><div class="eyebrow">TASK 01 · COURSE SELECTION</div><h1 id="pathTitle">CSE Major Roadmap</h1><span class="small-muted" id="pathSubtitle">Select courses to view details, mark taken, or add to your plan.</span></div><div class="card-actions"><button class="outline-btn btn-small" id="sampleBtn" type="button">Load sample</button><button class="outline-btn btn-small" id="clearTakenBtn" type="button">Clear taken</button></div></div>
- <div class="tabstrip"><button type="button" class="tab active" data-area="roadmap">CSE roadmap</button><button type="button" class="tab" data-area="math">Mathematics</button><button type="button" class="tab" data-area="science">Natural science</button><button type="button" class="tab" data-area="sbc">SBU curriculum</button></div>
- <details id="degreeRequirements" class="degree-requirements"><summary><span>Graduation requirements <small>View degree requirements and credit targets</small></span><span class="summary-caret">⌄</span></summary><div id="degreeRequirementsContent" class="degree-content"></div></details>
- <div id="roadmapArea"><div class="roadmap-wrap"><div class="roadmap-help"><div class="legend"><span><i class="dot todo"></i>Not taken</span><span><i class="dot taken"></i>Taken</span><span><i class="dot cart"></i>In cart</span></div><span class="small-muted">Click a course for actions</span></div><div class="roadmap-scroll"><div id="roadmapInner" class="roadmap-inner"><svg id="pathLines" class="path-lines" aria-hidden="true"></svg><div class="roadmap-grid" id="roadmapGrid"></div></div></div></div><div id="specializationRoadmap" class="specialization-roadmap hidden"></div><div class="requirements-summary" id="reqSummary"></div><div class="inline-note" id="curriculumNote"></div></div>
- <div class="required-list hidden" id="checklistArea"></div><div class="require-note hidden" id="checklistNote"></div></main>
- <aside class="side-card"><div class="cart-head"><span class="cart-title">Course cart</span><span class="count-bubble" id="cartCount">0 courses</span></div><div class="cart-body" id="cartItems"><div class="cart-empty"><div class="empty-icon">▣</div>Choose courses from the roadmap or catalog.</div></div><div class="cart-foot"><div class="cart-helpers"><small id="cartCredits">0 selected credits</small><button class="text-link" id="clearCartBtn" type="button">Clear cart</button></div><button class="primary-btn" type="button" id="makePlanBtn">Make course plan →</button></div></aside>
+
+<header class="topbar"><div class="topbar-in">
+  <div class="logo">Course<span>Path</span></div>
+  <nav class="stepper" id="stepper" aria-label="Task progress">
+    <div data-s="1"><b>1</b><span>Course Cart</span></div>
+    <div data-s="2"><b>2</b><span>Availability</span></div>
+    <div data-s="3"><b>3</b><span>Choose a Plan</span></div>
+  </nav>
+  <span id="profileTag"></span>
+</div></header>
+
+<main class="wrap">
+
+<!-- ========== PROFILE ========== -->
+<section id="pProfile">
+  <div class="landing">
+    <h1>Plan your next four semesters with confidence.</h1>
+    <p>Tell us where you are. We'll show your roadmap, check what's actually offered, and compare realistic plans.</p>
+    <div class="scope-notice" role="note">
+      <span class="scope-ico" aria-hidden="true">i</span>
+      <div><strong>What this planner covers:</strong> CoursePath helps you plan CS requirements and electives. Choose an interest area if you have one; it is optional.</div>
+    </div>
+    <div class="profile-card">
+      <div class="field">
+        <label for="year">Admission year</label>
+        <select id="year">
+          <option value="">Select your admission year</option>
+          <option>2023</option><option>2024</option><option>2025</option><option>2026</option>
+        </select>
+      </div>
+      <div class="slide" id="slType"><div><div class="field">
+        <span class="lbl">Student type</span>
+        <div class="seg" id="stype" role="group" aria-label="Student type">
+          <button type="button" data-v="Freshman admit">Freshman admit</button>
+          <button type="button" data-v="Transfer">Transfer</button>
+        </div>
+      </div></div></div>
+      <div class="slide" id="slMajor"><div><div class="row2">
+        <div class="field"><label for="major">Major</label>
+          <select id="major"><option>Computer Science</option></select></div>
+        <div class="field"><label for="spec">Specialization / interest</label>
+          <select id="spec">
+            <option value="">General CS (no specialization)</option>
+            <option value="game">Game Programming</option>
+            <option value="ai">AI &amp; Data Science</option>
+            <option value="hci">Human–Computer Interaction</option>
+            <option value="sec">Security &amp; Privacy</option>
+            <option value="sys">Systems Software</option>
+          </select></div>
+      </div></div></div>
+      <div class="profile-actions"><button class="btn" id="browseHistory">Browse course history</button> <button class="btn primary" id="showRoadmap" disabled>Show my roadmap →</button></div>
+    </div>
+  </div>
 </section>
-<section id="analysisView" class="hidden results-layout"><main class="results-card"><div class="results-pad"><div class="eyebrow">TASK 02 · COURSE ANALYSIS</div><div class="results-top"><div><h1 class="section-title">Analyze & Adjust Courses</h1><div class="small-muted">Review open possibility rates, then resolve each course in Planning notes</div></div><button type="button" class="outline-btn" id="editCartBtn">← Edit courses</button></div><div id="availabilityRows" class="availability-list"></div><div class="inline-note" style="margin:16px 0 2px">All probabilities and recommendations are illustrative examples, not actual AI predictions. Semester preferences influence the sample schedules when feasible.</div></div></main><aside class="results-card"><div class="recommend-box"><div class="eyebrow" style="color:#c9d8ff">NEXT STEP</div><h3>Build a four-semester plan</h3><p>Resolve every Planning note before generating sample schedules.</p><button class="primary-btn" id="generateSchedulesBtn" type="button">Generate schedules →</button></div><div class="results-pad" style="padding-top:0"><div class="info-title">Planning notes <span id="reviewCount" class="small-muted"></span></div><div id="analysisWarnings" class="planning-notes"></div></div></aside></section>
-<section id="scheduleView" class="hidden"><div class="results-top"><div><div class="eyebrow">TASK 03 · PLAN SELECTION</div><h1 class="section-title">Recommended 4-semester plans</h1><div class="small-muted">Compare options and select your preferred schedule.</div></div><button type="button" class="outline-btn" id="backAnalysisBtn">← Availability results</button></div><div class="schedule-stack" id="scheduleOptions"></div><div class="inline-note" style="margin:16px 0">These are sample future course plans. Instructor names are references from the supplied 2026 course lists, not confirmed future teaching assignments. Course offerings and prerequisites must be confirmed with the university.</div></section>
-<section id="finalView" class="hidden"><div class="eyebrow">PLAN SELECTED</div><h1 class="section-title">My four-semester course plan</h1><div class="final-result"><div class="final-hero"><div style="font-size:36px">✓</div><h3>Plan saved</h3><p id="selectedDescription">Your preferred plan is ready to review.</p><div class="show-print"><button type="button" class="outline-btn" id="comparePlansBtn">Compare again</button><button type="button" class="primary-btn" id="printPlanBtn">Print plan</button></div></div><div class="results-card"><div class="results-pad" id="finalSemesters"></div></div></div><div class="inline-note">Saved in this browser session only. Instructors are 2026 references or TBA, not future assignments. This plan does not register you for university courses.</div></section>
-</div>
 
-<div class="modal-layer hidden" id="courseModalLayer" role="dialog" aria-modal="true" aria-labelledby="modalCourseTitle"><div class="modal"><div class="modal-top"><div><div class="modal-course-type" id="modalCategory"></div><h2 id="modalCourseTitle">Course</h2></div><button class="icon-button" type="button" id="modalCloseBtn" aria-label="Close">×</button></div><p id="modalCourseDesc"></p><div class="modal-spec"><div><strong>Credits</strong><div id="modalCredits">3</div></div><div><strong>Prerequisite path</strong><div id="modalPrereqs">—</div></div></div><div class="modal-buttons"><button type="button" class="outline-btn" id="modalTakenBtn">✓ Mark as taken</button><button type="button" class="primary-btn" id="modalAddBtn">+ Put to plan</button></div></div></div>
-<div class="loading-overlay hidden" id="loadingOverlay" role="status" aria-live="polite"><div class="loading-card"><div class="orb" aria-hidden="true"></div><h2 id="loadingTitle">Reviewing your courses</h2><p id="loadingMessage">Preparing course availability estimates…</p><div class="loading-track"><div class="loading-fill" id="loadingFill"></div></div><div class="loading-percent" id="loadingPercent">4%</div></div></div><div class="toast" id="toast" role="status"></div>
+<!-- ========== TASK 1 ========== -->
+<section id="p1" class="hidden">
+  <div class="page-head"><h1>Build your Course Cart</h1><p>Mark what you've completed, then add the courses you want to plan.</p></div>
+  <div class="t1">
+    <div>
+      <div class="panel" id="reqPanel">
+        <button class="req-toggle" id="reqToggle" aria-expanded="false" aria-controls="reqBody">
+          <div><div class="t">Graduation requirements</div><div class="req-pills" id="reqPills"></div></div>
+          <span class="chev">▾</span>
+        </button>
+        <div class="slide" id="reqSlide"><div><div class="req-body" id="reqBody"></div></div></div>
+      </div>
+      <div class="panel roadmap">
+        <div class="roadmap-head">
+          <div><h2>Course roadmap</h2><span class="muted small">Click any course to see details.</span></div>
+          <div class="suggested-credits" id="suggestedCredits" aria-live="polite">
+            <div class="suggested-top"><b>Suggested credits</b><strong id="suggestedCreditCount">0 / 24–30</strong></div>
+            <div class="suggested-track"><div class="suggested-fill" id="suggestedCreditFill"></div></div>
+            <div class="suggested-message" id="suggestedCreditMessage">Add courses to reach the suggested total for four semesters.</div>
+          </div>
+          <div class="legend">
+            <span><i style="border-color:#9fd6bd;background:var(--green-soft)"></i>Taken</span>
+            <span><i style="border-color:var(--blue);background:var(--blue-soft)"></i>In cart</span>
+            <span><i style="border-color:#cfd9e8"></i>Available</span>
+            <span><i style="border-color:#aab5c6;border-style:dashed;background:var(--grey-soft)"></i>Prerequisite needed</span>
+          </div>
+        </div>
+        <div class="cols" id="cols"></div>
+      </div>
+    </div>
+    <aside class="panel cart" id="cartPanel">
+      <button class="cart-head" id="cartToggle" aria-expanded="true"><h2>Course cart</h2><span><span class="count" id="cartCount">0</span> <span class="chev" id="cartChev">▾</span></span></button>
+      <div id="cartBody">
+        <div class="cart-list" id="cartList"></div>
+        <div class="cart-foot"><span id="cartCredits">0 credits</span><button class="btn ghost sm" id="clearCart">Clear all</button></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ========== TASK 2 ========== -->
+<section id="p2" class="hidden">
+  <div class="page-head"><h1>Check course availability</h1><p>See how likely each course is to open, then resolve every Planning Note.</p></div>
+  <div class="t2">
+    <div class="panel opr">
+      <h2>Availability forecast</h2>
+      <div id="infoPop" class="info-pop hidden" role="note"></div>
+      <table id="oprTable"></table>
+      <div class="rate-legend">
+        <span><span class="rate likely">70%+</span> Likely</span>
+        <span><span class="rate unsure">30–69%</span> Uncertain</span>
+        <span><span class="rate unlikely">0–29%</span> Unlikely</span>
+        <span><span class="rate none">Not enough data</span> Insufficient offering history</span>
+      </div>
+    </div>
+    <div class="panel notes">
+      <div class="notes-head"><h2>Planning notes</h2><b id="noteCount"></b></div>
+      <div class="progress"><i id="noteProg" style="width:0"></i></div>
+      <div id="notesList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TASK 3 ========== -->
+<section id="p3" class="hidden">
+  <div class="page-head"><h1>Compare four-semester plans</h1><p>Each plan uses your cart and resolved notes. Click a plan to see its full layout.</p></div>
+  <div class="plan-cards" id="planCards"></div>
+  <div class="panel detail" id="planDetail"></div><div class="panel" id="conflictPanel" style="margin-top:14px;padding:16px"></div>
+</section>
+
+<!-- ========== FINAL ========== -->
+<section id="p4" class="hidden">
+  <div class="final-top"><span class="big">✓</span><div><h2 style="margin:0" id="finalTitle"></h2><p>Your four-semester plan is saved. Tentative courses list a backup you can switch to.</p></div></div>
+  <div class="panel detail" id="finalDetail"></div>
+</section>
+</main>
+
+<div class="actionbar"><div class="actionbar-in">
+  <button class="btn" id="backBtn">← Back</button>
+  <div class="status" id="barStatus"></div>
+  <button class="btn primary" id="nextBtn">Next →</button>
+</div></div>
+
+<div id="modalLayer"></div>
+<div id="printLayer" class="hidden"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
 <script>
-'use strict';
-const catalog=[
-['CSE101','Computer Science Principles',4,'cse',[],'Introductory course', ['spring','fall']],
-['CSE113','Foundations of Computer Science I',4,'cse',[],'Foundation sequence (2025+ path)', ['spring','fall']],
-['CSE114','Introduction to Object-Oriented Programming',4,'cse',['CSE101'],'Required foundation; roadmap connections are illustrative',['spring','fall']],
-['CSE213','Foundations of Computer Science II',4,'cse',['CSE113'],'Foundation sequence (2025+ path)',['spring','fall']],
-['CSE214','Data Structures',4,'cse',['CSE114'],'Required foundational course',['spring','fall']],
-['CSE215','Foundations of Computer Science',3,'cse',[],'Required introductory course in provided requirements text',[]],
-['CSE216','Programming Abstractions',4,'cse',['CSE214'],'Required course in provided requirements text',[]],
-['CSE220','Systems Fundamentals I',4,'cse',['CSE214'],'Systems course',['spring','fall']],
-['CSE303','Introduction to the Theory of Computation',3,'cse',['CSE215'],'Required advanced course in provided requirements text',['fall']],
-['CSE307','Principles of Programming Languages',3,'cse',['CSE214'],'Course on 2025+ roadmap',['spring','fall']],
-['CSE310','Computer Networks',3,'cse',['CSE220'],'Required advanced course in provided requirements text',['fall']],
-['CSE312','Legal, Social, and Ethical Issues in Information Systems',3,'cse',[],'Professional ethics requirement',['spring','fall']],
-['CSE316','Fundamentals of Software Development',3,'cse',['CSE307'],'Advanced development course',['fall']],
-['CSE320','Systems Fundamentals II',3,'cse',['CSE220'],'Advanced systems course',['spring','fall']],
-['CSE373','Analysis of Algorithms',3,'cse',['CSE213','AMS210'],'Algorithms course (illustrative roadmap links)',['spring','fall']],
-['CSE416','Software Engineering',3,'cse',['CSE316'],'Software engineering course',['spring','fall']],
-['CSE300','Technical Communications',3,'cse',['WRT102'],'Upper-division writing requirement',['fall']],
-['CSE305','Principles of Database Systems',3,'cse',['CSE214'],'Upper-division elective example',['spring']],
-['CSE327','Fundamentals of Computer Vision',3,'cse',['CSE214'],'Upper-division elective example',['spring']],
-['CSE337','Scripting Languages',3,'cse',['CSE214'],'Upper-division elective example',['spring']],
-['CSE354','Computer Security',3,'cse',['CSE220'],'Upper-division elective example',[]],
-['CSE380','2D Game Programming',3,'cse',['CSE214'],'Game Programming specialization core course; prerequisites illustrative',[]],
-['AMS151','Applied Calculus I',3,'math',[],'Calculus requirement',['spring','fall']],
-['AMS161','Applied Calculus II',3,'math',['AMS151'],'Calculus requirement',['spring','fall']],
-['AMS210','Applied Linear Algebra',3,'math',['AMS151'],'Linear algebra option',['spring','fall']],
-['MAT211','Introduction to Linear Algebra',3,'math',[],'Linear algebra option',[]],
-['AMS326','Numerical Analysis',3,'math',[],'Linear algebra / numerical analysis option',['spring']],
-['AMS301','Finite Mathematical Structures',3,'math',['AMS210'],'Discrete mathematics requirement',['fall','spring']],
-['AMS310','Survey of Probability and Statistics',3,'math',['AMS161'],'Statistics requirement',['spring','fall']],
-['AMS311','Probability Theory',3,'math',['AMS161'],'Alternative statistics option',['fall']],
-['AMS312','Mathematical Statistics',3,'math',[],'Alternative statistics option',[]],
-['PHY131','Classical Physics I',3,'science',[],'Natural science lecture option',[]],
-['PHY133','Classical Physics Laboratory I',1,'science',[],'Natural science laboratory option',[]],
-['PHY125','Classical Physics A',3,'science',[],'Additional natural science option',[]],
-['BIO201','Fundamentals of Biology: Organisms to Ecosystems',3,'science',[],'Natural science lecture option',[]],
-['BIO204','Fundamentals of Scientific Inquiry in Biological Sciences I',2,'science',[],'Natural science laboratory option',[]],
-['CHE131','General Chemistry I',4,'science',[],'Natural science lecture option',[]],
-['CHE133','General Chemistry Laboratory I',1,'science',[],'Natural science laboratory option',[]],
-['CHE132','General Chemistry II',4,'science',[],'Additional natural science option',[]],
-['BIO202','Biology lecture option',3,'science',[],'Approved biology lecture option',[]],
-['BIO203','Biology lecture option',3,'science',[],'Approved biology lecture option',[]],
-['CHE152','Chemistry lecture option',3,'science',[],'Approved chemistry lecture option',[]],
-['CHE154','Chemistry laboratory option',1,'science',[],'Approved chemistry laboratory option',[]],
-['PHY126','Physics lecture option',3,'science',[],'Approved physics lecture option',[]],
-['PHY127','Physics lecture option',3,'science',[],'Approved physics lecture option',[]],
-['PHY141','Physics lecture option',3,'science',[],'Approved physics lecture option',[]],
-['AST203','Astronomy option',3,'science',[],'Additional natural science option',[]],
-['AST205','Astronomy option',3,'science',[],'Additional natural science option',[]],
-['CHE321','Chemistry option',3,'science',[],'Additional natural science option',[]],
-['CHE322','Chemistry option',3,'science',[],'Additional natural science option',[]],
-['CHE331','Chemistry option',3,'science',[],'Additional natural science option',[]],
-['CHE332','Chemistry option',3,'science',[],'Additional natural science option',[]],
-['GEO102','Geology option',3,'science',[],'Additional natural science option',[]],
-['GEO103','Geology option',3,'science',[],'Additional natural science option',[]],
-['GEO112','Geology option',3,'science',[],'Additional natural science option',[]],
-['GEO113','Geology option',3,'science',[],'Additional natural science option',[]],
-['GEO122','Geology option',3,'science',[],'Additional natural science option',[]],
-['PHY132','Physics option',3,'science',[],'Additional natural science option',[]],
-['PHY134','Physics laboratory option',1,'science',[],'Additional natural science option',[]],
-['PHY142','Physics option',3,'science',[],'Additional natural science option',[]],
-['PHY251','Physics option',3,'science',[],'Additional natural science option',[]],
-['PHY252','Physics option',3,'science',[],'Additional natural science option',[]],
-['WRT102','Intermediate Writing Workshop',3,'sbc',[],'Writing requirement on roadmap',[]],
-['SBC-HUM','Humanities requirement (placeholder)',3,'sbc',[],'Sample SBC category, not a real course code',[]],
-['SBC-ARTS','Arts requirement (placeholder)',3,'sbc',[],'Sample SBC category, not a real course code',[]],
-['SBC-SBS','Social & behavioral sciences (placeholder)',3,'sbc',[],'Sample SBC category, not a real course code',[]],
-['CSE304','Compiler Design',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE306','Operating Systems',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE311','Systems Administration',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE323','Human-Computer Interaction',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE328','Fundamentals of Computer Graphics',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE331','Computer Security Fundamentals',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE332','Introduction to Visualization',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE333','User Interface Development',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE334','Introduction to Multimedia Systems',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE336','Internet Programming',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE351','Introduction to Data Science',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE352','Artificial Intelligence',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE353','Machine Learning',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE355','Computational Geometry',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE356','Cloud Computing',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE357','Statistical Methods for Data Science',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE360','Software Security',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE361','Web Security',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE362','Mobile Security',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE363','Offensive Security',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE364','Advanced Multimedia Techniques',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE366','Introduction to Virtual Reality',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE371','Logic',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE374','Storage Systems',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE376','Advanced Systems Programming in UNIX/C',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE378','Introduction to Robotics',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE381','3D Game Programming',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE390','Special Topics in Computer Science',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE487','Research in Computer Science',0,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE488','Internship in Computer Science',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE495','Senior Honors Research Project I',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['CSE496','Senior Honors Research Project II',3,'cse',[],'Specialization course; offering and prerequisites not verified',[]],
-['PSY260','Survey in Cognition and Perception',3,'math',[],'Specialization course; offering and prerequisites not verified',[]],
-['PSY368','Sensation and Perception',3,'math',[],'Specialization course; offering and prerequisites not verified',[]],
-['PSY369','Special Topics in Cognition and Perception',3,'math',[],'Specialization course; offering and prerequisites not verified',[]],
-].map(([id,name,credits,area,req,description,offered])=>({id,name,credits,area,req,description,offered}));
-const byId=Object.fromEntries(catalog.map(c=>[c.id,c]));
-let state={year:'2025',term:'Fall',student:'new',degree:'major',minorCatalog:'later',specialization:'none',area:'roadmap',filter:'all',query:'',taken:new Set(),cart:[],preferences:{},view:'planning',modal:null,finalIndex:null};
-const $=(id)=>document.getElementById(id);const $$=(sel)=>Array.from(document.querySelectorAll(sel));
-const oldPath=[[['CSE101','AMS151'],['CSE114','CSE215'],['CSE214','AMS161'],['CSE216','CSE220','AMS210'],['CSE303','CSE310','CSE320','AMS310'],['CSE373','CSE416']],[['CSE101','CSE114'],['CSE114','CSE214'],['CSE214','CSE216'],['CSE214','CSE220'],['CSE220','CSE320'],['CSE215','CSE303'],['CSE216','CSE416'],['AMS151','AMS161'],['AMS161','AMS310'],['AMS210','CSE373']]];
-const newPath=[[['CSE101','CSE113','AMS151'],['CSE114','CSE213','AMS161'],['CSE214','AMS210','AMS310'],['CSE307','CSE220','CSE373'],['CSE316','CSE320','CSE312'],['CSE416','CSE300']],[['CSE101','CSE114'],['CSE113','CSE213'],['CSE114','CSE214'],['CSE214','CSE307'],['CSE214','CSE220'],['CSE307','CSE316'],['CSE316','CSE416'],['CSE220','CSE320'],['CSE213','CSE373'],['AMS151','AMS161'],['AMS151','AMS210'],['AMS210','CSE373'],['AMS161','AMS310']]];
-function recentCatalog(){if(state.degree==='minor')return state.minorCatalog==='later';return Number(state.year)>2025||(state.year==='2025'&&state.term==='Fall')}
-function roadmapData(){if(state.degree==='minor')return recentCatalog()?[[['CSE114'],['CSE214'],['CSE307','CSE220'],['CSE305','CSE327'],['CSE337','CSE354'],['CSE416']],[['CSE114','CSE214'],['CSE214','CSE307'],['CSE214','CSE220']]]:[[['CSE114'],['CSE214'],['CSE216','CSE220'],['CSE305','CSE327'],['CSE337','CSE354'],['CSE416']],[['CSE114','CSE214'],['CSE214','CSE216'],['CSE214','CSE220']]];return recentCatalog()?newPath:oldPath}
-function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),2500)}
-function switchView(view){state.view=view;['planning','analysis','schedule','final'].forEach(k=>$(k+'View').classList.toggle('hidden',k!==view));let step=view==='planning'?1:view==='analysis'?2:3;for(let n=1;n<=3;n++){$('step'+n).classList.toggle('active',n===step);$('step'+n).classList.toggle('done',n<step)}window.scrollTo({top:0,behavior:'smooth'})}
-function setArea(area){state.area=area;$$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.area===area));$('roadmapArea').classList.toggle('hidden',area!=='roadmap');$('checklistArea').classList.toggle('hidden',area==='roadmap');$('checklistNote').classList.toggle('hidden',area==='roadmap');if(area!=='roadmap')renderChecklist();else renderRoadmap()}
-const majorRequirementsHTML=`<div class="degree-cols"><div><h3>CSE major · core courses</h3><p><b>Introductory:</b> CSE 114, 214, 215, 216, 220</p><p><b>Advanced:</b> CSE 303, 310, 316, 320, 373, 416</p><p><b>Electives:</b> four upper-division technical CSE electives (per supplied written requirements).</p><p><b>Additional:</b> CSE 312 (ethics), CSE 300 (technical writing).</p></div><div><h3>Mathematics and natural sciences</h3><p>AMS 151 & 161 (or approved calculus alternatives); one of MAT 211 / AMS 210 / AMS 326; AMS 301; and one of AMS 310 / 311 / 312.</p><p>Approved natural science courses: <b>at least 9 credits</b>, including an approved lecture/lab combination.</p><p><b>Approximately 80 credits</b> for the major; letter grades C or higher; relevant residency and GPA requirements apply.</p></div></div><div class="degree-warning">The supplied 2025+ roadmap shows six technical elective boxes, while the supplied written major requirements say four electives. This is a planning aid; confirm your catalog year and exact requirements with an academic advisor.</div>`;
-function renderDegreeRequirements(){
- const out=$('degreeRequirementsContent');
- if(state.degree==='major'){out.innerHTML=majorRequirementsHTML;return}
- if(recentCatalog()){
-  out.innerHTML='<div class="degree-cols"><div><h3>CSE minor · Fall 2025 or later</h3><p>Seven CSE courses: CSE 114, CSE 214, CSE 307 <b>or</b> CSE 220, plus four additional CSE major courses (including three upper-division courses totaling at least 9 credits).</p><p>Excluded from the additional electives: CSE 300, 312, 475, 487, 488. CSE 301 is not a technical elective.</p></div><div><h3>Admission and grades</h3><p>Entry courses: CSE 114 (or CSE 160) and CSE 214 (or CSE 260) or CSE 113 (or CSE 150), each with B− or higher; admission is competitive. Courses counting toward the minor require a letter grade C or higher.</p><p>The supplied requirements specify seven courses but do not give one fixed credit total for this version.</p></div></div>';
- }else{
-  out.innerHTML='<div class="degree-cols"><div><h3>CSE minor · Before Fall 2025</h3><p>Seven CSE courses totaling <b>22–24 credits</b>: CSE 114; CSE 214; CSE 216 or CSE 220; and four additional CSE major courses, including three upper-division CSE courses totaling at least 9 credits.</p></div><div><h3>Grades and exclusions</h3><p>All minor courses require C or higher. Additional electives exclude CSE 300, 312, 475, 487, 488; CSE 301 is not a technical elective.</p></div></div>';
- }
-}
-function creditSummaryHTML(){
- const credits=[...state.taken].reduce((sum,id)=>sum+(byId[id]?.credits||0),0);
- const relevant=[...state.taken].filter(id=>id.startsWith('CSE'));
- if(state.degree==='minor'){
-  const target=recentCatalog()?'not specified':'22–24';
-  const val=recentCatalog()?credits+' / —':credits+' / 22–24';
-  const label=recentCatalog()?'Credits marked (no fixed total in provided rules)':'Minor credits (22–24 required)';
-  return [[val,label],[relevant.length+' / 7','CSE courses marked'],[state.cart.length+' selected','Course cart']];
- }
- const core=['CSE114','CSE214','CSE215','CSE216','CSE220','CSE303','CSE310','CSE316','CSE320','CSE373','CSE416'];
- const science=[...state.taken].filter(id=>byId[id]?.area==='science').reduce((s,id)=>s+byId[id].credits,0);
- return [[credits+' / ~80','Completed credits / approximate major total'],[core.filter(id=>state.taken.has(id)).length+' / '+core.length,'Written core CSE courses'],[science+' / 9','Natural science credits']];
-}
-const specializationData={
- ai:{title:'Artificial Intelligence & Data Science',groups:[['Core — choose at least 2','CSE351','CSE352','CSE353','CSE357'],['Electives — 4 courses total','CSE323','CSE327','CSE332','CSE337','CSE354','CSE371','CSE378','CSE390','CSE487','CSE495','CSE496']],note:'Four courses total, including at least two core courses. Research/special topics must be in AI or data science.'},
- hci:{title:'Human-Computer Interaction',groups:[['Core — 4 required (one choice)','CSE323','PSY260','CSE328','CSE332','CSE333'],['Electives — choose 2','CSE327','CSE328','CSE332','CSE334','CSE336','CSE352','CSE364','CSE366','CSE378','CSE390','PSY368','PSY369'],['Project — choose 1','CSE487','CSE488','CSE495','CSE496']],note:'Core includes CSE 328 OR CSE 332. At least one elective must be CSE. Project must focus on HCI.'},
- game:{title:'Game Programming',groups:[['Core — 4 required','CSE306','CSE328','CSE380','CSE381'],['Electives — choose 2','CSE310','CSE327','CSE331','CSE332','CSE334','CSE352','CSE353','CSE355','CSE364','CSE376','CSE378'],['Project — choose 1','CSE487','CSE488','CSE495','CSE496']],note:'Project must focus on game programming. Physics is encouraged for the natural science sequence.'},
- security:{title:'Security & Privacy',groups:[['Core — CSE 331 + one','CSE331','CSE360','CSE361','CSE362','CSE363'],['Electives — choose 3','CSE310','CSE360','CSE361','CSE362','CSE363','CSE304','CSE306','CSE356','CSE376','CSE390','CSE374','CSE487','CSE495','CSE496']],note:'CSE 331 and one of CSE 360–363 as core; choose three electives, excluding core courses. Some electives are grouped alternatives; see official requirements.'},
- systems:{title:'Systems Software Development',groups:[['Choose 5 courses','CSE304','CSE306','CSE310','CSE311','CSE331','CSE356','CSE360','CSE361','CSE362','CSE363','CSE374','CSE376','CSE390']],note:'Five courses, at most two from CSE 331 and CSE 360–363. Special topics must focus on systems software development.'}
+/* ---------------- Data ----------------
+   opr = Open Possibility Rate per planned term [Spring 2027, Fall 2027, Spring 2028, Fall 2028],
+   estimated from past offering history. null = no recorded history.
+   All percentages are illustrative prototype data and must not be used as evidence of future course availability. */
+const VERIFIED_HISTORY={"AMS151":["Spring 2026","Fall 2026"],"AMS161":["Spring 2026","Fall 2026"],"AMS210":["Spring 2026","Fall 2026"],"AMS261":["Spring 2026","Fall 2026"],"AMS301":["Spring 2026","Fall 2026"],"AMS310":["Spring 2026","Fall 2026"],"AMS315":["Spring 2026"],"AMS318":["Spring 2026"],"AMS326":["Spring 2026"],"AMS351":["Spring 2026"],"AMS380":["Spring 2026"],"AMS475":["Spring 2026","Fall 2026"],"AMS476":["Spring 2026","Fall 2026"],"AMS487":["Spring 2026","Fall 2026"],"AMS488":["Spring 2026","Fall 2026"],"AMS572":["Spring 2026"],"AMS580":["Spring 2026"],"AMS597":["Spring 2026"],"AMS599":["Spring 2026","Fall 2026"],"CSE101":["Spring 2026","Fall 2026"],"CSE113":["Spring 2026","Fall 2026"],"CSE114":["Spring 2026","Fall 2026"],"CSE213":["Spring 2026","Fall 2026"],"CSE214":["Spring 2026","Fall 2026"],"CSE220":["Spring 2026","Fall 2026"],"CSE305":["Spring 2026"],"CSE307":["Spring 2026","Fall 2026"],"CSE312":["Spring 2026"],"CSE320":["Spring 2026","Fall 2026"],"CSE327":["Spring 2026"],"CSE337":["Spring 2026"],"CSE373":["Spring 2026","Fall 2026"],"CSE416":["Spring 2026","Fall 2026"],"CSE475":["Spring 2026","Fall 2026"],"CSE487":["Spring 2026","Fall 2026"],"CSE505":["Spring 2026"],"CSE506":["Spring 2026"],"CSE512":["Spring 2026"],"CSE522":["Spring 2026","Fall 2026"],"CSE523":["Spring 2026","Fall 2026"],"CSE524":["Spring 2026","Fall 2026"],"CSE534":["Spring 2026"],"CSE593":["Spring 2026","Fall 2026"],"CSE596":["Spring 2026"],"CSE599":["Spring 2026","Fall 2026"],"CSE646":["Spring 2026","Fall 2026"],"CSE656":["Spring 2026","Fall 2026"],"CSE658":["Spring 2026","Fall 2026"],"CSE696":["Spring 2026"],"CSE698":["Spring 2026","Fall 2026"],"CSE699":["Spring 2026","Fall 2026"],"CSE700":["Spring 2026"],"PHY131":["Spring 2026","Fall 2026"],"PHY132":["Spring 2026","Fall 2026"],"PHY133":["Spring 2026","Fall 2026"],"PHY134":["Spring 2026","Fall 2026"],"WRT101":["Spring 2026","Fall 2026"],"WRT102":["Spring 2026","Fall 2026"],"AMS311":["Fall 2026"],"AMS317":["Fall 2026"],"AMS325":["Fall 2026"],"AMS361":["Fall 2026"],"AMS394":["Fall 2026"],"AMS510":["Fall 2026"],"AMS540":["Fall 2026"],"AMS570":["Fall 2026"],"AMS573":["Fall 2026"],"AMS578":["Fall 2026"],"CSE300":["Fall 2026"],"CSE303":["Fall 2026"],"CSE310":["Fall 2026"],"CSE316":["Fall 2026"],"CSE323":["Fall 2026"],"CSE331":["Fall 2026"],"CSE390":["Fall 2026"],"CSE511":["Fall 2026"],"CSE527":["Fall 2026"],"CSE532":["Fall 2026"],"CSE540":["Fall 2026"],"CSE570":["Fall 2026"],"CSE600":["Fall 2026"],"CSE644":["Fall 2026"],"CSE649":["Fall 2026"],"CSE650":["Fall 2026"]};
+const TERMS=['Spring 2027','Fall 2027','Spring 2028','Fall 2028'];
+const C={
+ CSE113:{n:'Foundations of Computer Science I',cr:4,req:[],opr:[90,90,90,90],d:'Logic, sets, functions and proof techniques for computing (2025+ catalog).'},
+ CSE213:{n:'Foundations of Computer Science II',cr:4,req:['CSE113'],opr:[90,90,90,90],d:'Induction, recursion, counting and graphs (2025+ catalog).'},
+ CSE114:{n:'Intro to Object-Oriented Programming',cr:4,req:[],opr:[95,95,95,95],d:'Programming with classes, objects, and basic algorithms in Java.'},
+ CSE214:{n:'Data Structures',cr:4,req:['CSE114'],opr:[95,95,95,95],d:'Lists, stacks, queues, trees, hashing, and their analysis.'},
+ CSE215:{n:'Foundations of Computer Science',cr:3,req:[],opr:[90,90,90,90],d:'Discrete math and proof techniques used across computer science.'},
+ CSE216:{n:'Programming Abstractions',cr:4,req:['CSE214'],opr:[90,90,90,90],d:'Functional and object-oriented abstractions, types, and design.'},
+ CSE220:{n:'Systems Fundamentals I',cr:4,req:['CSE214'],opr:[90,90,90,90],d:'Machine-level programming, memory, and computer organization.'},
+ CSE300:{n:'Technical Communications',cr:3,req:['WRT102'],opr:[0,85,0,85],d:'Writing and presenting technical work. Upper-division writing requirement.'},
+ CSE303:{n:'Theory of Computation',cr:3,req:['CSE215'],opr:[0,90,0,90],d:'Automata, formal languages, computability and complexity.'},
+ CSE310:{n:'Computer Networks',cr:3,req:['CSE220'],opr:[0,90,0,85],d:'Network layers, protocols, and the design of the Internet.'},
+ CSE312:{n:'Legal, Social & Ethical Issues',cr:3,req:[],opr:[80,80,80,80],d:'Professional ethics, privacy, and law in computing.'},
+ CSE316:{n:'Fundamentals of Software Development',cr:3,req:['CSE216'],opr:[15,90,10,90],d:'Team software projects, web/app development, testing and version control.'},
+ CSE320:{n:'Systems Fundamentals II',cr:3,req:['CSE220'],opr:[85,85,85,85],d:'C programming, processes, concurrency, and system calls.'},
+ CSE373:{n:'Analysis of Algorithms',cr:3,req:['CSE214','AMS210'],opr:[80,85,80,85],d:'Algorithm design techniques and complexity analysis.'},
+ CSE416:{n:'Software Engineering',cr:3,req:['CSE316'],opr:[85,60,85,60],d:'Large-scale team project: requirements, design, and delivery.'},
+ AMS151:{n:'Applied Calculus I',cr:3,req:[],opr:[90,90,90,90],d:'Limits, derivatives, and integrals with applications.'},
+ AMS161:{n:'Applied Calculus II',cr:3,req:['AMS151'],opr:[90,90,90,90],d:'Integration techniques, series, and differential equations.'},
+ AMS210:{n:'Applied Linear Algebra',cr:3,req:['AMS151'],opr:[85,85,85,85],d:'Vectors, matrices, linear systems and eigenvalues.'},
+ AMS301:{n:'Finite Mathematical Structures',cr:3,req:['AMS210'],opr:[80,80,75,80],d:'Combinatorics, graph theory, and discrete structures.'},
+ AMS310:{n:'Probability and Statistics',cr:3,req:['AMS161'],opr:[85,85,85,85],d:'Probability models, distributions, and statistical inference.'},
+ WRT102:{n:'Intermediate Writing Workshop',cr:3,req:[],opr:[90,90,90,90],d:'Academic writing and argument.'},
+ PHY131:{n:'Classical Physics I + Lab',cr:4,req:[],opr:[70,85,70,85],d:'Mechanics with laboratory (natural science requirement).'},
+ /* electives */
+ CSE380:{n:'2D Game Programming',cr:3,req:['CSE214'],opr:null,d:'Game loops, sprites, physics, and AI for 2D games. Builds a complete game in teams.'},
+ CSE381:{n:'3D Game Programming',cr:3,req:['CSE380'],opr:[0,35,0,40],d:'3D engines, scene graphs, shaders, and real-time game architecture.'},
+ CSE328:{n:'Computer Graphics',cr:3,req:['CSE220'],opr:[75,20,75,20],d:'Rendering pipeline, transformations, lighting, and OpenGL.'},
+ CSE366:{n:'Intro to Virtual Reality',cr:3,req:['CSE214'],opr:[50,55,45,55],d:'VR hardware, interaction techniques, and immersive applications.'},
+ CSE352:{n:'Artificial Intelligence',cr:3,req:['CSE214'],opr:[80,80,80,80],d:'Search, knowledge representation, and reasoning.'},
+ CSE353:{n:'Machine Learning',cr:3,req:['CSE352'],opr:[60,70,60,70],d:'Supervised and unsupervised learning methods.'},
+ CSE351:{n:'Intro to Data Science',cr:3,req:['CSE214'],opr:[75,75,75,75],d:'Data wrangling, visualization, and modeling.'},
+ CSE305:{n:'Database Systems',cr:3,req:['CSE214'],opr:[80,10,80,10],d:'Relational design, SQL, and transactions.'},
+ CSE323:{n:'Human–Computer Interaction',cr:3,req:['CSE214'],opr:[0,80,0,80],d:'User-centered design, prototyping, and evaluation.'},
+ CSE333:{n:'User Interface Development',cr:3,req:['CSE323'],opr:[60,30,60,30],d:'Building interactive interfaces.'},
+ CSE332:{n:'Intro to Visualization',cr:3,req:['CSE214'],opr:[55,55,55,55],d:'Visual encoding and interactive data visualization.'},
+ CSE336:{n:'Internet Programming',cr:3,req:['CSE214'],opr:[70,70,70,70],d:'Client/server web development.'},
+ CSE331:{n:'Computer Security Fundamentals',cr:3,req:['CSE220'],opr:[70,70,70,70],d:'Threats, cryptography basics, and secure systems.'},
+ CSE360:{n:'Software Security',cr:3,req:['CSE331'],opr:[40,40,40,40],d:'Vulnerabilities and secure coding.'},
+ CSE361:{n:'Web Security',cr:3,req:['CSE331'],opr:[0,50,0,50],d:'Attacks and defenses for web applications.'},
+ CSE354:{n:'Computer Security',cr:3,req:['CSE220'],opr:[60,60,60,60],d:'Network and system security.'},
+ CSE306:{n:'Operating Systems',cr:3,req:['CSE320'],opr:[70,70,70,70],d:'Processes, memory management, and file systems.'},
+ CSE376:{n:'Advanced Systems Programming',cr:3,req:['CSE320'],opr:[50,50,50,50],d:'UNIX/C systems programming.'},
+ CSE374:{n:'Storage Systems',cr:3,req:['CSE320'],opr:[40,0,40,0],d:'Storage hardware and file system design.'},
+ CSE311:{n:'Systems Administration',cr:3,req:['CSE220'],opr:[60,60,60,60],d:'Administering UNIX systems and networks.'}
 };
-function renderSpecialization(){
- const panel=$('specializationRoadmap'),spec=specializationData[state.specialization];
- panel.classList.toggle('hidden',!spec||state.degree!=='major');
- if(!spec||state.degree!=='major'){panel.innerHTML='';return}
- const unique=[...new Set(spec.groups.flatMap(g=>g.slice(1)))];
- const completed=unique.filter(id=>state.taken.has(id)).length;
- panel.innerHTML='<div class="specialization-heading"><h3>'+spec.title+' · Specialization Roadmap</h3><small>'+completed+' selected courses marked Taken</small></div><div class="specialization-groups">'+spec.groups.map(g=>'<div class="specialization-group"><h4>'+g[0]+'</h4><div class="specialization-course-list">'+g.slice(1).map(id=>'<button type="button" class="specialization-node '+status(id)+'" data-course="'+id+'">'+id+' '+(state.taken.has(id)?'✓':'')+'</button>').join('')+'</div></div>').join('')+'</div><p class="specialization-note">'+spec.note+' Click any course to mark Taken or Put to Plan. This is a planning guide, not an automatic degree audit.</p>';
-}
-function renderProfile(){ $('minorDeclareWrap').classList.toggle('hidden',state.degree!=='minor');$('specializationWrap').classList.toggle('hidden',state.degree!=='major');$('specializationSelect').value=state.specialization; $$('.pill-toggle[data-student]').forEach(b=>b.classList.toggle('active',b.dataset.student===state.student));$$('.pill-toggle[data-degree]').forEach(b=>b.classList.toggle('active',b.dataset.degree===state.degree));$('pathTitle').textContent=state.degree==='minor'?'CSE Minor Roadmap':'CSE Major Roadmap';renderDegreeRequirements();$('pathSubtitle').textContent=(recentCatalog()?'Fall 2025 or later':'Before Fall 2025')+' · select any course to mark taken or add to cart';renderRoadmap();renderChecklist()}
-function status(id){return state.taken.has(id)?'taken':state.cart.includes(id)?'incart':''}
-function renderRoadmap(){const [cols,edges]=roadmapData();$('roadmapGrid').innerHTML=cols.map((items,i)=>'<div class="roadmap-column"><div class="col-title">'+['Start','Foundation','Progress','Intermediate','Advanced','Finish'][i]+'</div>'+items.map(id=>'<button type="button" class="node '+status(id)+'" data-course="'+id+'" id="node-'+id+'"><span>'+id.replace('CSE','CSE ') .replace('AMS','AMS ')+'</span><span class="node-sub">'+(state.taken.has(id)?'✓ Taken':state.cart.includes(id)?'◉ In plan':byId[id]?.name.split(' ').slice(0,3).join(' ')||'Course')+'</span></button>').join('')+'</div>').join('');$('reqSummary').innerHTML=creditSummaryHTML().map(([num,label])=>'<div class="summary-chip"><b>'+num+'</b><span>'+label+'</span></div>').join('');$('curriculumNote').textContent=state.degree==='major'?'Roadmap follows the supplied year-specific diagram. The separately supplied requirement text lists some different CSE course sequences and elective counts; verify your official catalog before relying on this for graduation.':'Minor course pathways are simplified illustrations based on the supplied requirements. Minor admission and eligibility rules may differ by declaration date.';renderSpecialization();requestAnimationFrame(()=>drawConnections(edges))}
-function drawConnections(edges){const svg=$('pathLines');if(!svg||state.area!=='roadmap'||state.view!=='planning')return;let container=$('roadmapInner'),root=container.getBoundingClientRect();if(!root.width)return;svg.setAttribute('viewBox','0 0 '+container.clientWidth+' '+container.clientHeight);svg.innerHTML='';for(const [from,to] of edges){let a=$('node-'+from),b=$('node-'+to);if(!a||!b)continue;let ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();let x1=ar.right-root.left-3,y1=ar.top-root.top+ar.height/2,x2=br.left-root.left+3,y2=br.top-root.top+br.height/2;if(x2<x1)continue;let mx=(x1+x2)/2;svg.insertAdjacentHTML('beforeend','<path d="M '+x1+' '+y1+' C '+mx+' '+y1+', '+mx+' '+y2+', '+x2+' '+y2+'"/>')}}
-function renderChecklist(){const area=state.area;let items=catalog.filter(c=>c.area===area);$('checklistArea').innerHTML=items.map(c=>'<button type="button" class="check-row" data-course="'+c.id+'"><span><b>'+c.id.replace('-', ' · ')+'</b><small>'+c.name+'</small></span><span class="status-small '+(state.taken.has(c.id)?'ok':'')+'">'+(state.taken.has(c.id)?'Taken':state.cart.includes(c.id)?'In cart':'Select')+'</span></button>').join('');$('checklistNote').textContent=area==='science'?'Natural science: at least one approved lecture/lab combination and at least 9 credits overall, according to the provided requirement text.':area==='sbc'?'SBC-HUM, SBC-ARTS, and SBC-SBS are category placeholders, not real SUNY course numbers.':'Course options are drawn from the provided requirements and reference course lists.'}
-function renderCart(){const credits=state.cart.reduce((n,id)=>n+(byId[id]?.credits||0),0);$('cartCount').textContent=state.cart.length+' course'+(state.cart.length===1?'':'s');$('cartCredits').textContent=credits+' selected credits';$('cartItems').innerHTML=state.cart.length?state.cart.map(id=>{let c=byId[id];return '<div class="cart-course"><div><strong>'+id.replace('-', ' · ')+'</strong><small>'+c.name+'</small></div><button type="button" class="remove" data-remove="'+id+'" aria-label="Remove '+id+'">×</button></div>'}).join(''):'<div class="cart-empty"><div class="empty-icon">▣</div>Choose courses from the roadmap or catalog.</div>';$('makePlanBtn').disabled=!state.cart.length}
-function updateAll(){renderCart();renderRoadmap();if(state.area!=='roadmap')renderChecklist();renderCatalog();renderModalButtons()}
-function markTaken(id){if(state.taken.has(id)){state.taken.delete(id);toast(id+' marked not taken')}else{state.taken.add(id);state.cart=state.cart.filter(x=>x!==id);toast(id+' marked taken')}updateAll()}
-function addCart(id){if(state.taken.has(id)){toast('Already marked taken. Change its status to add it.');return}if(state.cart.includes(id)){toast(id+' is already in your cart');return}state.cart.push(id);toast(id+' added to cart');updateAll()}
-function removeCart(id){state.cart=state.cart.filter(x=>x!==id);updateAll()}
-function showModal(id){const c=byId[id];if(!c)return;state.modal=id;$('modalCategory').textContent={cse:'Computer Science',math:'Mathematics',science:'Natural Science',sbc:'SBU Curriculum'}[c.area];$('modalCourseTitle').textContent=id.replace('-', ' · ');$('modalCourseDesc').textContent=c.name+' — '+c.description;$('modalCredits').textContent=c.credits+' credits';$('modalPrereqs').textContent=c.req.length?c.req.join(', '):'None shown in example path';renderModalButtons();$('courseModalLayer').classList.remove('hidden')}
-function renderModalButtons(){let id=state.modal;if(!id)return;$('modalTakenBtn').textContent=state.taken.has(id)?'↶ Mark not taken':'✓ Mark as taken';$('modalAddBtn').textContent=state.cart.includes(id)?'✓ Added to plan':'+ Put to plan';$('modalAddBtn').disabled=state.cart.includes(id)||state.taken.has(id)}
-function closeModal(){$('courseModalLayer').classList.add('hidden');state.modal=null}
-
-
-function renderCatalog(){let filtered=catalog.filter(c=>(state.filter==='all'||state.filter===c.area)&&(c.id+' '+c.name).toLowerCase().includes(state.query.toLowerCase()));$('courseResults').innerHTML=filtered.map(c=>'<button type="button" class="course-item" data-course="'+c.id+'"><span><strong>'+c.id.replace('-', ' · ')+'</strong><small>'+c.name+'</small></span><span class="mini-course-status '+(state.taken.has(c.id)?'taken':state.cart.includes(c.id)?'added':'')+'">'+(state.taken.has(c.id)?'✓ Taken':state.cart.includes(c.id)?'In cart':'+ View')+'</span></button>').join('')||'<p style="padding:20px;color:#71819b">No matching courses.</p>'}
-let pendingTimers=[];
-function simulateLoading(title,stages,cb){$('loadingTitle').textContent=title;$('loadingOverlay').classList.remove('hidden');$('loadingFill').style.width='4%';$('loadingPercent').textContent='4%';$('loadingMessage').textContent=stages[0];let points=[{ms:300,p:17,t:0},{ms:900,p:42,t:1},{ms:1500,p:72,t:2},{ms:2100,p:94,t:3},{ms:2700,p:100,t:3}];pendingTimers.forEach(clearTimeout);pendingTimers=points.map(({ms,p,t})=>setTimeout(()=>{$('loadingFill').style.width=p+'%';$('loadingPercent').textContent=p+'%';$('loadingMessage').textContent=stages[Math.min(t,stages.length-1)];if(p===100)setTimeout(()=>{$('loadingOverlay').classList.add('hidden');cb()},280)},ms))}
-function eligibility(c){let missing=c.req.filter(id=>!state.taken.has(id)&&!state.cart.includes(id));let planned=c.req.filter(id=>!state.taken.has(id)&&state.cart.includes(id));if(missing.length)return {type:'mid',label:'Prerequisite to review',missing,planned};if(planned.length)return {type:'mid',label:'Sequence needed',missing:[],planned};return {type:'good',label:'Path reviewed',missing:[],planned:[]}}
-function reviewComplete(){return state.cart.length>0&&state.cart.every(id=>state.reviewed?.[id]===true)}
-function refreshReviewGate(){const done=state.cart.filter(id=>state.reviewed?.[id]).length;const btn=$('generateSchedulesBtn');btn.disabled=!reviewComplete();$('reviewCount').textContent=`(${done}/${state.cart.length} reviewed)`;}
-function buildAnalysis(){
- state.reviewed=state.reviewed||{};
- $('availabilityRows').innerHTML=state.cart.map(id=>{const c=byId[id],e=eligibility(c);const rate=c.offered.length===2?'High · 85%':c.offered.length===1?'Moderate · 65%':'Low · 35%';const pref=state.preferences[id]??'';
- return `<div class="task2-course"><div class="task2-top"><div><strong>${id} — ${c.name}</strong><div class="task2-muted">Prerequisites: ${c.req.join(', ')||'None listed'}</div></div><span class="task2-prob">Open possibility rate: ${rate}</span></div><div class="task2-controls"><label>Preferred semester<select data-preferred="${id}"><option value="">No preference</option>${semesters.map((term,i)=>`<option value="${i}" ${String(pref)===String(i)?'selected':''}>${term}</option>`).join('')}</select></label></div>${e.missing.length?`<div class="task2-warning">Missing prerequisite(s): ${e.missing.join(', ')}</div>`:''}</div>`;
- }).join('');
- $('analysisWarnings').innerHTML=state.cart.map(id=>{const c=byId[id],e=eligibility(c),alternatives=catalog.filter(x=>x.id!==id&&!state.cart.includes(x.id)&&!state.taken.has(x.id)&&x.area===c.area).sort((a,b)=>b.offered.length-a.offered.length||a.id.localeCompare(b.id)).slice(0,12);return `<div class="planning-note"><strong>${id} ${state.reviewed[id]?'✓':''}</strong><div class="task2-muted">${e.missing.length?'Missing prerequisites: '+e.missing.join(', '):e.planned.length?'Sequence required: '+e.planned.join(', '):'Review this course and confirm your decision.'}</div><label class="note-label">Decision<select data-note-decision="${id}"><option value="">Choose an action</option><option value="keep" ${state.reviewed[id]?'selected':''}>Keep course / Acknowledge note</option><option value="replace">Replace course</option></select></label><label class="note-label hidden" data-note-replacement="${id}">Replacement<select data-note-replace="${id}"><option value="">Choose replacement</option>${alternatives.map(a=>`<option value="${a.id}">${a.id} — ${a.name}</option>`).join('')}</select></label></div>`}).join('');
- refreshReviewGate();
-}
-const semesters=['Spring 2027','Fall 2027','Spring 2028','Fall 2028'];
-const styles=[{name:'Balanced plan',detail:'Spread courses across four semesters',order:0},{name:'Earlier progress',detail:'Prioritize earlier openings where possible',order:1},{name:'Lighter start',detail:'Leave extra room in the first semester',order:2}];
-function generateSchedules(){
- const selected=state.cart.slice(),present=new Set(selected),successors={};
- for(const id of selected)successors[id]=[];
- for(const id of selected)for(const r of byId[id].req)if(present.has(r))successors[r].push(id);
- const chainMemo={};
- function chain(id,seen=new Set()){if(chainMemo[id])return chainMemo[id];if(seen.has(id))return 1;let next=new Set(seen);next.add(id);return chainMemo[id]=1+Math.max(0,...successors[id].map(s=>chain(s,next)))}
- const order=selected.slice().sort((a,b)=>chain(b)-chain(a)||byId[a].req.length-byId[b].req.length||a.localeCompare(b));
- const variants=[];
- for(let index=0;index<3;index++){
-  let buckets=[[],[],[],[]],placed={};
-  for(const id of order){
-   const c=byId[id];let chosen=null;
-   let preReqTerms=c.req.filter(r=>Object.hasOwn(placed,r)).map(r=>placed[r]);
-   let minTerm=preReqTerms.length?Math.max(...preReqTerms)+1:0;
-   let latest=Math.max(minTerm,4-chain(id));
-   let allowable=Array.from({length:4},(_,i)=>i).filter(i=>i>=minTerm&&i<=latest&&(!c.offered.length||c.offered.includes(i%2===0?'spring':'fall')));
-   if(!allowable.length)allowable=Array.from({length:4},(_,i)=>i).filter(i=>i>=minTerm&&i<=latest);
-   if(!allowable.length)allowable=Array.from({length:4},(_,i)=>i).filter(i=>i>=minTerm);
-   if(!allowable.length)allowable=[3]; // impossible case: keep visible for review rather than omit
-   function load(i){return buckets[i].reduce((sum,x)=>sum+byId[x].credits,0)}
-   function score(i){let preference=state.preferences[id];let preferencePenalty=preference!==undefined&&preference!==''?Math.abs(i-Number(preference))*25:0;let s=preferencePenalty+load(i)*(index===1?1.1:1.7)+i*(index===1?4:1.8);if(index===2&&i===0)s+=5;if(chain(id)>1)s+=(i-minTerm)*7;if(index===0&&i===3)s+=3;return s}
-   chosen=allowable.sort((a,b)=>score(a)-score(b))[0];
-   buckets[chosen].push(id);placed[id]=chosen;
-  }
-  variants.push(buckets);
- }
- return variants;
-}
-// Instructors below were listed in the supplied Spring/Fall 2026 course schedules.
-// They are reference names, NOT confirmed future-semester assignments.
-const instructor2026={
-'CSE101':'Francois Rameau','CSE113':'Zhoulai Fu','CSE114':'Byungkon Kang',
-'CSE213':'Sehwan Yoo','CSE214':'Byungkon Kang','CSE220':'Antonino Mione',
-'CSE300':'Christopher Houghton','CSE303':'James Finn','CSE305':'Bongki Moon',
-'CSE307':'Zhoulai Fu','CSE310':'Jihoon Ryoo','CSE312':'JiHyun Jeong',
-'CSE316':'Antonino Mione','CSE320':'YoungMin Kwon','CSE327':'Jihoon Ryoo',
-'CSE337':'Antonino Mione','CSE373':'James Finn','CSE416':'Yoon-Seok Yang',
-'AMS151':'Su Il Oh','AMS161':'Young-Seon Lee','AMS210':'Ky Tran',
-'AMS301':'Su Il Oh','AMS310':'Jinsoo Hwang','AMS311':'Chulki Kim',
-'AMS326':'Tan Cao'
+/* exactly four elective slots per specialization (matches the 4-elective requirement) */
+const SPEC={
+ general:{name:"General CS",el:["CSE305","CSE323","CSE331","CSE352","CSE306","CSE328","CSE336","CSE380","CSE381","CSE351","CSE353","CSE332","CSE366","CSE311","CSE354"]},
+ game:{name:'Game Programming',el:['CSE380','CSE381','CSE328','CSE366']},
+ ai:{name:'AI & Data Science',el:['CSE352','CSE353','CSE351','CSE305']},
+ hci:{name:'Human–Computer Interaction',el:['CSE323','CSE333','CSE332','CSE336']},
+ sec:{name:'Security & Privacy',el:['CSE331','CSE360','CSE361','CSE354']},
+ sys:{name:'Systems Software',el:['CSE306','CSE376','CSE374','CSE311']}
 };
-function semesterCourseHTML(id){const c=byId[id];const instructor=instructor2026[id]||'TBA';return '<span class="sem-course"><strong>'+id.replace('-', ' · ')+'</strong><small>'+c.credits+' credits</small><small>Instructor: '+instructor+'</small></span>'}
-function renderSchedules(){let variants=generateSchedules();$('scheduleOptions').innerHTML=variants.map((buckets,i)=>'<div class="schedule-card '+(i===0?'recommended':'')+'"><div class="schedule-heading"><div><h3>'+styles[i].name+'</h3><div class="small-muted">'+styles[i].detail+'</div></div>'+(i===0?'<span class="light-badge">Suggested</span>':'')+'</div><div class="semester-grid">'+buckets.map((courses,j)=>'<div class="semester"><h4>'+semesters[j]+'</h4>'+(courses.length?courses.map(semesterCourseHTML).join(''):'<span class="empty-line">Open for other courses</span>')+'</div>').join('')+'</div><button class="primary-btn" type="button" data-choose="'+i+'">Select this plan</button></div>').join('')}
-function selectPlan(i){state.finalIndex=i;let buckets=generateSchedules()[i];$('selectedDescription').textContent=styles[i].name+' · '+state.cart.length+' selected courses across four semesters.';$('finalSemesters').innerHTML='<div class="semester-grid">'+buckets.map((courses,j)=>'<div class="semester"><h4>'+semesters[j]+'</h4>'+(courses.length?courses.map(semesterCourseHTML).join(''):'<span class="empty-line">Open for other courses</span>')+'</div>').join('')+'</div>';switchView('final')}
-function loadSample(){state.preferences={};state.reviewed={};state.taken=new Set(recentCatalog()?['CSE101','CSE113','CSE114','CSE213','CSE214','AMS151','AMS161']:['CSE101','CSE114','CSE214','CSE215','AMS151','AMS161']);state.cart=recentCatalog()?['CSE307','CSE220','CSE316','CSE320','CSE373','CSE416','CSE354','AMS210']:['CSE216','CSE220','CSE303','CSE310','CSE320','CSE373','CSE416','AMS210'];updateAll();toast('Sample student courses loaded')}
-function startOver(){state.preferences={};state.reviewed={};state.taken.clear();state.cart=[];state.area='roadmap';setArea('roadmap');updateAll();switchView('planning');toast('Course plan reset')}
-// user interactions
-$('entryYear').onchange=e=>{state.year=e.target.value;renderProfile()};$('entryTerm').onchange=e=>{state.term=e.target.value;renderProfile()};$('minorCatalog').onchange=e=>{state.minorCatalog=e.target.value;renderProfile()};$('specializationSelect').onchange=e=>{state.specialization=e.target.value;renderProfile()};$$('[data-student]').forEach(b=>b.onclick=()=>{state.student=b.dataset.student;renderProfile()});$$('[data-degree]').forEach(b=>b.onclick=()=>{state.degree=b.dataset.degree;renderProfile()});$$('[data-area]').forEach(b=>b.onclick=()=>setArea(b.dataset.area));
-$('searchCourses').oninput=e=>{state.query=e.target.value;renderCatalog()};$$('[data-filter]').forEach(b=>b.onclick=()=>{state.filter=b.dataset.filter;$$('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderCatalog()});
-document.addEventListener('change',e=>{
- const pref=e.target.closest('[data-preferred]');if(pref){state.preferences[pref.dataset.preferred]=pref.value;toast('Semester preference saved');return}
- const decision=e.target.closest('[data-note-decision]');if(decision){const id=decision.dataset.noteDecision;state.reviewed[id]=decision.value==='keep';const wrap=document.querySelector(`[data-note-replacement="${id}"]`);wrap.classList.toggle('hidden',decision.value!=='replace');refreshReviewGate();return}
- const replacement=e.target.closest('[data-note-replace]');if(replacement&&replacement.value){const oldId=replacement.dataset.noteReplace,newId=replacement.value;if(!byId[newId]||state.cart.includes(newId))return;state.cart=state.cart.map(id=>id===oldId?newId:id);delete state.preferences[oldId];delete state.reviewed[oldId];state.reviewed[newId]=false;updateAll();buildAnalysis();toast(oldId+' replaced with '+newId+' — review the new course in Planning notes');}
+function catalog(year){
+  const newPath=+year>=2025;
+  const found=newPath?['CSE114','CSE113','CSE213','CSE214','CSE216','CSE220']:['CSE114','CSE215','CSE214','CSE216','CSE220'];
+  return {
+    label:newPath?'2025+ Undergraduate Bulletin':year+' Undergraduate Bulletin',
+    groups:[
+      {k:'found',t:'CS foundation',ids:found,col:'Foundation'},
+      {k:'core',t:'CS core',ids:['CSE303','CSE310','CSE312','CSE316','CSE320','CSE373'],col:'Core'},
+      {k:'cap',t:'Capstone & writing',ids:['WRT102','CSE300','CSE416'],col:'Capstone & writing'},
+      {k:'math',t:'Math & science',ids:['AMS151','AMS161','AMS210','AMS301','AMS310','PHY131'],col:'Math & science'},
+    ],
+    electives:newPath?6:4
+  };
+}
+const PRESET={2023:['CSE114','CSE214','CSE215','CSE216','CSE220','CSE303','CSE312','CSE320','AMS151','AMS161','AMS210','AMS310','WRT102','PHY131'],
+ 2024:['CSE114','CSE214','CSE215','CSE216','AMS151','AMS161','AMS210','WRT102','PHY131'],
+ 2025:['CSE114','CSE113','AMS151','WRT102'],2026:[]};
+
+/* ---------------- State ---------------- */
+const S={publicBrowse:false,page:'profile',year:'',type:'',spec:'',taken:new Set(),cart:[],notes:[],res:{},tentative:{},plans:[],view:0,selected:-1,final:null,maxPage:0};
+const $=id=>document.getElementById(id);
+const req=id=>(C[id]?.req)||[];
+function reqForYear(id){ // CSE303/CSE373 depend on the foundation path of the catalog year
+  if(+S.year>=2025){ if(id==='CSE303')return['CSE213']; if(id==='CSE373')return['CSE213','AMS210']; }
+  return req(id);
+}
+function missing(id){return reqForYear(id).filter(p=>!S.taken.has(p)&&!S.cart.includes(p))}
+function chainMissing(id,out=[]){for(const p of missing(id)){chainMissing(p,out);if(!out.includes(p))out.push(p)}return out}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
+function credits(ids){return ids.reduce((n,id)=>n+(C[id]?.cr||0),0)}
+const nice=id=>id.replace(/^([A-Z]+)(\d)/,'$1 $2');
+
+/* ---------------- Profile (sliding reveal) ---------------- */
+function profileCheck(){
+  $('slType').classList.toggle('open',!!S.year);
+  $('slMajor').classList.toggle('open',!!S.year&&!!S.type);
+  $('showRoadmap').disabled=!(S.year&&S.type);
+}
+$('year').onchange=e=>{S.year=e.target.value;profileCheck()};
+$('stype').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.type=b.dataset.v;[...$('stype').children].forEach(x=>x.classList.toggle('on',x===b));profileCheck()};
+$('spec').onchange=e=>{S.spec=e.target.value;profileCheck()};
+$('browseHistory').onclick=()=>{S.publicBrowse=true;go('p2')};
+$('showRoadmap').onclick=()=>{S.publicBrowse=false;
+  if(S._profileKey!==`${S.year}|${S.type}`){S.taken=new Set(S.type==='Transfer'?[]:PRESET[S.year]);S.cart=[];S._profileKey=`${S.year}|${S.type}`;}S.maxPage=1;
+  $('profileTag').textContent=`Admitted ${S.year} · ${S.type} · CS · ${(SPEC[S.spec]||SPEC.general).name}`;
+  go('p1');toast(S.type==='Transfer'?'Mark the courses you transferred in as Taken.':'Courses typical for your year are pre-marked as Taken. Correct any that are wrong.');
+};
+
+/* ---------------- Task 1: roadmap, requirements, cart ---------------- */
+function statusOf(id){if(S.taken.has(id))return'taken';if(S.cart.includes(id))return'cart';if(missing(id).length)return'locked';return'avail'}
+function drawSuggestedCredits(){
+  const total=credits(S.cart);
+  const panel=$('suggestedCredits');
+  panel.classList.toggle('good',total>=24&&total<=30);
+  panel.classList.toggle('over',total>30);
+  $('suggestedCreditCount').textContent=`${total} / 24–30`;
+  $('suggestedCreditFill').style.width=Math.min(100,total/30*100)+'%';
+  $('suggestedCreditMessage').textContent=total<24
+    ? `Add ${24-total} more credits to reach the suggested range.`
+    : total<=30
+      ? 'Within the suggested range for your four-semester plan.'
+      : `${total-30} credits above the suggested range. Consider reviewing your cart.`;
+}
+function drawRoadmap(){
+  const cat=catalog(S.year);
+  const cols=cat.groups.map(g=>({t:g.col,ids:g.ids}));
+  cols.splice(3,0,{t:(SPEC[S.spec]||SPEC.general).name+' electives',ids:(SPEC[S.spec]||SPEC.general).el});
+  $('cols').innerHTML=cols.map(c=>`<div class="col"><h3>${c.t}</h3>${c.ids.map(id=>{
+    const s=statusOf(id),m=missing(id);
+    const st={taken:'✓ Taken',cart:'In cart',locked:'Needs '+m.map(nice).join(', '),avail:''}[s];
+    return `<button class="course ${s}" data-c="${id}"><span class="code">${nice(id)}<span class="muted" style="font-weight:600;font-size:12px">${C[id].cr} cr</span></span><span class="name">${C[id].n}</span>${st?`<span class="st">${s==='locked'?'🔒 ':''}${st}</span>`:''}</button>`}).join('')}</div>`).join('');
+  drawSuggestedCredits();
+}
+function drawReq(){
+  const cat=catalog(S.year);
+  const rows=cat.groups.map(g=>{const done=g.ids.filter(i=>S.taken.has(i)),planned=g.ids.filter(i=>S.cart.includes(i));return{t:g.t,ids:g.ids,done:done.length,planned:planned.length,total:g.ids.length}});
+  const remaining=rows.flatMap(r=>r.ids).filter(i=>!S.taken.has(i)&&!S.cart.includes(i));
+  $('reqPills').innerHTML=rows.map(r=>`<span class="pill ${r.done===r.total?'ok':''}">${r.t} ${r.done}/${r.total}${r.planned?` · ${r.planned} in cart`:''}</span>`).join('');
+  $('reqBody').innerHTML=rows.map(r=>`<div class="req-row"><div><b>${r.t}</b><div class="bar"><i style="width:${r.done/r.total*100}%"></i></div></div><div class="codes">${r.ids.map(i=>S.taken.has(i)?`<s>✓ ${nice(i)}</s>`:S.cart.includes(i)?`<b style="color:var(--blue)">${nice(i)}</b>`:nice(i)).join(' · ')}</div><b>${r.done}/${r.total}</b></div>`).join('')+
+  `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap">
+     <span class="catalog-note">Requirements follow the <b>${cat.label}</b> (your admission year).</span>
+     <button class="btn sm" id="addRemaining" ${remaining.length?'':'disabled'}>+ Add remaining required courses (${remaining.length})</button>
+   </div>`;
+  $('addRemaining').onclick=()=>{const before=S.cart.length;const ordered=[];remaining.forEach(i=>{chainMissing(i).forEach(p=>{if(!ordered.includes(p))ordered.push(p)});if(!ordered.includes(i))ordered.push(i)});ordered.forEach(i=>{if(!S.cart.includes(i)&&!S.taken.has(i))S.cart.push(i)});refresh1();toast(`${S.cart.length-before} required courses added to your cart`)};
+}
+function drawCart(){
+  $('cartCount').textContent=S.cart.length;
+  $('cartCredits').innerHTML=`<b>${credits(S.cart)} credits</b>&nbsp;selected`;
+  $('cartList').innerHTML=S.cart.length?S.cart.map(id=>`<div class="cart-item"><div><b>${nice(id)}</b> <span>${C[id].n} · ${C[id].cr} cr</span></div><button class="x" data-rm="${id}" aria-label="Remove ${id}">✕</button></div>`).join(''):'<div class="empty">Your cart is empty.<br>Click a course and choose “Add to cart”.</div>';
+}
+function refresh1(){drawReq();drawRoadmap();drawCart();bar()}
+$('reqToggle').onclick=()=>{const o=$('reqToggle').getAttribute('aria-expanded')!=='true';$('reqToggle').setAttribute('aria-expanded',o);$('reqSlide').classList.toggle('open',o)};
+$('cartToggle').onclick=()=>{const o=$('cartBody').classList.toggle('hidden');$('cartToggle').setAttribute('aria-expanded',!o);$('cartChev').textContent=o?'▸':'▾'};
+$('clearCart').onclick=()=>{S.cart=[];refresh1();toast('Cart cleared')};
+
+function removeFromCart(id){
+  // removing a course also removes planned courses that depend on it
+  const drop=[id];let changed=true;
+  while(changed){changed=false;for(const c of S.cart){if(!drop.includes(c)&&reqForYear(c).some(p=>drop.includes(p))&&!reqForYear(c).every(p=>S.taken.has(p))){drop.push(c);changed=true}}}
+  S.cart=S.cart.filter(c=>!drop.includes(c));return drop;
+}
+document.addEventListener('click',e=>{
+  const rm=e.target.closest('[data-rm]');if(rm){const d=removeFromCart(rm.dataset.rm);refresh1();toast(d.map(nice).join(', ')+' removed from cart');return}
+  const c=e.target.closest('.course');if(c&&S.page==='p1')openCourse(c.dataset.c);
 });
-document.addEventListener('click',e=>{let course=e.target.closest('[data-course]'),remove=e.target.closest('[data-remove]'),choose=e.target.closest('[data-choose]');if(course){showModal(course.dataset.course)}else if(remove){removeCart(remove.dataset.remove)}else if(choose){selectPlan(Number(choose.dataset.choose))}});
-$('modalCloseBtn').onclick=closeModal;$('courseModalLayer').onclick=e=>{if(e.target===$('courseModalLayer'))closeModal()};$('modalTakenBtn').onclick=()=>{if(state.modal)markTaken(state.modal)};$('modalAddBtn').onclick=()=>{if(state.modal)addCart(state.modal)};
-$('sampleBtn').onclick=loadSample;$('clearTakenBtn').onclick=()=>{state.taken.clear();updateAll();toast('Taken status cleared')};$('clearCartBtn').onclick=()=>{state.cart=[];state.reviewed={};updateAll()};$('restartBtn').onclick=startOver;
-$('makePlanBtn').onclick=()=>{if(!state.cart.length)return toast('Add at least one course first');simulateLoading('Reviewing your course cart',['Reading selected courses…','Checking prerequisite paths…','Reviewing 2026 offering references…','Preparing availability summary…'],()=>{buildAnalysis();switchView('analysis')})};
-$('editCartBtn').onclick=()=>switchView('planning');$('generateSchedulesBtn').onclick=()=>{if(!reviewComplete())return toast('Resolve all Planning notes first');simulateLoading('Building your schedules',['Organizing selected courses…','Checking sample semester availability…','Balancing the four terms…','Finishing recommended plans…'],()=>{renderSchedules();switchView('schedule')})};$('backAnalysisBtn').onclick=()=>switchView('analysis');$('comparePlansBtn').onclick=()=>{renderSchedules();switchView('schedule')};$('printPlanBtn').onclick=()=>window.print();
-$('step1').onclick=()=>switchView('planning');$('step2').onclick=()=>{if(state.cart.length){buildAnalysis();switchView('analysis')}else toast('Select some courses first')};$('step3').onclick=()=>{if(reviewComplete()){renderSchedules();switchView('schedule')}else toast('Resolve all Planning notes in Task 2 first')};
-window.addEventListener('resize',()=>{if(state.area==='roadmap')requestAnimationFrame(()=>drawConnections(roadmapData()[1]))});document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal()}});
-renderProfile();renderCart();renderCatalog();
+
+function closeModal(){$('modalLayer').innerHTML=''}
+function modal(html){$('modalLayer').innerHTML=`<div class="backdrop" id="bd"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`;$('bd').onclick=e=>{if(e.target.id==='bd')closeModal()};const f=$('modalLayer').querySelector('.btn.primary,.btn');f&&f.focus()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('printLayer').classList.add('hidden')}});
+
+function offerText(id){const o=C[id].opr;if(!o)return'No history';const sp=Math.max(o[0],o[2]),fa=Math.max(o[1],o[3]);if(sp>=30&&fa>=30)return'Spring & Fall';if(fa>=30)return'Fall only';if(sp>=30)return'Spring only';return'Rarely'}
+function openCourse(id){
+  const s=statusOf(id),chain=chainMissing(id),x=C[id];
+  const prereq=reqForYear(id).length?reqForYear(id).map(p=>`${nice(p)} ${S.taken.has(p)?'✓':S.cart.includes(p)?'(in cart)':'✗'}`).join(', '):'None';
+  let actions='';
+  if(s==='taken')actions=`<button class="btn" data-act="untake">Unmark taken</button>`;
+  else if(s==='cart')actions=`<button class="btn" data-act="take">✓ Mark as taken</button><button class="btn danger" data-act="remove">Remove from cart</button>`;
+  else if(s==='locked')actions=`<button class="btn" data-act="take">✓ Mark as taken</button><button class="btn primary" data-act="addchain">Add ${chain.map(nice).join(' + ')} + ${nice(id)} to cart</button>`;
+  else actions=`<button class="btn" data-act="take">✓ Mark as taken</button><button class="btn primary" data-act="add">+ Add to cart</button>`;
+  modal(`<div class="modal-top"><div><div class="kicker">${C[id].opr===null?'Elective · no offering history':(SPEC[S.spec]||SPEC.general).el.includes(id)?'Elective':'Required'}</div><h2>${nice(id)}</h2></div><button class="x" onclick="closeModal()" aria-label="Close">✕</button></div>
+   <p class="title">${x.n}</p><p class="desc">${x.d}</p>
+   <div class="facts"><div><b>Credits</b>${x.cr}</div><div><b>Prerequisites</b>${prereq}</div><div><b>Usually offered</b>${offerText(id)}</div></div>
+   ${s==='locked'?`<div class="lockmsg">🔒 You can't add ${nice(id)} alone — complete or plan <b>${chain.map(nice).join(', ')}</b> first. Add them together, or mark them as Taken if you've finished them.</div>`:''}
+   <div class="modal-actions">${actions}</div>`);
+  $('modalLayer').querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
+    const a=b.dataset.act;let msg='';
+    if(a==='take'){S.taken.add(id);S.cart=S.cart.filter(c=>c!==id);msg=nice(id)+' marked as taken'}
+    if(a==='untake'){S.taken.delete(id);const dep=[...S.cart].filter(c=>missing(c).length);dep.forEach(c=>removeFromCart(c));msg=nice(id)+' unmarked'+(dep.length?' · removed '+dep.map(nice).join(', ')+' (needs it)':'')}
+    if(a==='add'){S.cart.push(id);msg=nice(id)+' added to cart'}
+    if(a==='addchain'){[...chain,id].forEach(c=>{if(!S.cart.includes(c))S.cart.push(c)});msg=[...chain,id].map(nice).join(' + ')+' added to cart'}
+    if(a==='remove'){const d=removeFromCart(id);msg=d.map(nice).join(', ')+' removed from cart'}
+    closeModal();refresh1();toast(msg);
+    const el=document.querySelector(`.course[data-c="${id}"]`);el&&el.classList.add('flash');
+  });
+}
+
+/* ---------------- Task 2: availability + planning notes ---------------- */
+function rateCls(v){return v===null?'none':v>=70?'likely':v>=30?'unsure':'unlikely'}
+function rateTxt(v){return v===null?'Not enough data':v+'%'}
+function buildNotes(){
+  const notes=[],elec=(SPEC[S.spec]||SPEC.general).el;
+
+  const backups=id=>Object.keys(SPEC)
+    .flatMap(k=>SPEC[k].el)
+    .concat(elec)
+    .filter((c,i,a)=>
+      a.indexOf(c)===i &&
+      c!==id &&
+      !S.cart.includes(c) &&
+      !S.taken.has(c) &&
+      C[c].opr &&
+      Math.max(...C[c].opr)>=50 &&
+      !missing(c).length
+    )
+    .sort((a,b)=>(elec.includes(b)-elec.includes(a)))
+    .slice(0,2);
+
+  S.cart.forEach(id=>{
+    const o=C[id].opr;
+    const dep=S.cart.filter(c=>reqForYear(c).includes(id));
+
+    // Courses with insufficient availability data
+    if(o===null){
+      const b=backups(id);
+
+      notes.push({
+        id:'nd-'+id,
+        course:id,
+        ico:'?',
+        title:`${nice(id)} has insufficient availability data`,
+        text:`The supplied Spring/Fall 2026 records are not enough to predict when ${nice(id)} will be offered.${dep.length?` ${dep.map(nice).join(', ')} require${dep.length>1?'':'s'} it.`:''}`,
+        opts:[
+          ...b.map(x=>({
+            v:'keep:'+x,
+            t:`Keep ${nice(id)} as Tentative`,
+            s:`Backup if it doesn't open: ${nice(x)} ${C[x].n}`
+          })),
+          ...(b[0]?[{
+            v:'replace:'+b[0],
+            t:`Replace with ${nice(b[0])} ${C[b[0]].n}`,
+            s:dep.length
+              ? `Also removes ${dep.map(nice).join(', ')} (needs ${nice(id)})`
+              : 'Alternative to consider (verify official schedule)'
+          }]:[])
+        ]
+      });
+    }
+
+    // Courses with a low chance of opening
+    else if(Array.isArray(o) && Math.max(...o)<50){
+      const b=backups(id);
+
+      notes.push({
+        id:'lo-'+id,
+        course:id,
+        ico:'!',
+        title:`${nice(id)} may not open`,
+        text:`Its illustrative forecast peaks at ${Math.max(...o)}% (${TERMS[o.indexOf(Math.max(...o))]}).`,
+        opts:[
+          {
+            v:'keep:'+(b[0]||''),
+            t:`Keep ${nice(id)} as Tentative`,
+            s:b[0]
+              ? `Backup: ${nice(b[0])} ${C[b[0]].n}`
+              : 'No backup available'
+          },
+          ...(b[0]?[{
+            v:'replace:'+b[0],
+            t:`Replace with ${nice(b[0])} ${C[b[0]].n}`,
+            s:`Demo estimate: ${Math.max(...C[b[0]].opr)}% (unverified)`
+          }]:[])
+        ]
+      });
+    }
+  });
+
+  // Courses offered in only one season
+  const single=S.cart.filter(id=>{
+    const o=C[id].opr;
+    return Array.isArray(o) && Math.max(...o)>=50 && o.some(v=>v<30);
+  });
+
+  if(single.length){
+    notes.push({
+      id:'season',
+      ico:'⏱',
+      title:`${single.length} course${single.length>1?'s are':' is'} offered in one season only`,
+      text:single.map(id=>`${nice(id)} (${offerText(id)})`).join(', ')+'. Verify future term schedules; historical offerings do not guarantee a future term.',
+      opts:[
+        {
+          v:'ack',
+          t:'Keep them — schedule only in the season they open',
+          s:'The plan is tentative; confirm official offerings'
+        },
+        {
+          v:'drop',
+          t:'Remove the elective ones from my cart',
+          s:'Required courses stay; electives with one season are removed'
+        }
+      ].filter(o=>o.v==='ack'||single.some(id=>!isRequired(id)))
+    });
+  }
+
+  // Prerequisite sequences
+  const seq=S.cart.flatMap(id=>
+    reqForYear(id)
+      .filter(p=>S.cart.includes(p))
+      .map(p=>[p,id])
+  );
+
+  if(seq.length){
+    notes.push({
+      id:'seq',
+      ico:'→',
+      title:`${seq.length} prerequisite sequence${seq.length>1?'s':''} in your cart`,
+      text:seq.map(([a,b])=>`${nice(a)} → ${nice(b)}`).join(', ')+'. Each pair must go in different semesters, in this order.',
+      opts:[
+        {
+          v:'ack',
+          t:'Keep all — order them across semesters',
+          s:'Every plan will show “After …” next to the later course'
+        }
+      ]
+    });
+  }
+
+  // Add a no-change option to every planning note
+  notes.forEach(n=>{
+    n.opts.push({
+      v:'as-is',
+      t:'Keep my schedule as it is',
+      s:'Acknowledge this issue and continue without changing your selected courses.'
+    });
+  });
+
+  return notes;
+}
+function isRequired(id){return catalog(S.year).groups.some(g=>g.ids.includes(id))}
+function drawOpr(){
+  const shown=S.publicBrowse?Object.keys(VERIFIED_HISTORY).filter(id=>/^(CSE|AMS|PHY|WRT)/.test(id)&&C[id]):S.cart;
+  $('oprTable').innerHTML=`<thead><tr><th rowspan="2">Course</th><th rowspan="2">2026 published lists</th><th colspan="4" class="th-group">Illustrative forecast <button class="info-btn" id="infoBtn" aria-label="What is the Open Possibility Rate?" aria-expanded="false">i</button></th></tr><tr>${TERMS.map(t=>`<th>${t}</th>`).join('')}</tr></thead>
+  <tbody>${shown.map(id=>`<tr><td><b>${nice(id)}</b><span class="cname">${C[id].n}</span></td><td class="history-cell">${VERIFIED_HISTORY[id]?.join(" · ")||"Not listed"}</td>${(C[id].opr||[null,null,null,null]).map(v=>`<td><span class="rate ${rateCls(v)}">${rateTxt(v)}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+  $('infoBtn').onclick=()=>{const p=$('infoPop');const open=p.classList.toggle('hidden');$('infoBtn').setAttribute('aria-expanded',!open);
+    p.innerHTML=`<b>Open Possibility Rate</b> = a demonstration estimate, NOT a verified probability. The published Spring and Fall 2026 lists are shown separately; future offerings must be checked with the university.<br>• <b>70%+ Likely</b> — usually opens. • <b>30–69% Uncertain</b> — have a backup. • <b>0–29% Unlikely</b> — don't count on it. • <b>Not enough data</b> — there isn't enough offering history to make a reliable prediction.`};
+}
+function drawNotes(){
+  if(S.publicBrowse){$('noteCount').textContent='Browse only';$('noteProg').style.width='0';$('notesList').innerHTML='<div class="empty">Select your profile and build a cart to generate a personal plan.</div>';bar();return}
+  const done=S.notes.filter(n=>S.res[n.id]?.confirmed).length;
+  $('noteCount').textContent=`${done}/${S.notes.length} confirmed`;
+  $('noteProg').style.width=(S.notes.length?done/S.notes.length*100:100)+'%';
+  if(!S.notes.length){$('notesList').innerHTML='<div class="empty">No planning issues found. You can generate schedules.</div>';bar();return}
+  const firstOpen=S.notes.find(n=>!S.res[n.id]?.confirmed);
+  $('notesList').innerHTML=S.notes.map(n=>{
+    const r=S.res[n.id]||{},isDone=r.confirmed,open=!isDone&&(r.editing||n===firstOpen);
+    const chosen=n.opts.find(o=>o.v===r.choice);
+    return `<div class="note ${isDone?'done':open?'open':''}" id="note-${n.id}"><div class="note-top"><span class="note-ico">${isDone?'✓':n.ico}</span><div style="flex:1"><h3>${n.title}</h3><p>${n.text}</p></div>${isDone?`<button class="btn ghost sm" data-edit="${n.id}">Change</button>`:''}</div>
+    ${isDone?`<div class="result">Decision: ${chosen?chosen.t:''}${chosen&&chosen.s?' — '+chosen.s:''}</div>`:''}
+    ${open?`<div class="opts">${n.opts.map(o=>`<label class="opt ${r.choice===o.v?'sel':''}"><input type="radio" name="o-${n.id}" value="${o.v}" ${r.choice===o.v?'checked':''}><span><b>${o.t}</b>${o.s}</span></label>`).join('')}</div>
+      <div class="note-actions"><button class="btn primary sm" data-confirm="${n.id}" ${r.choice?'':'disabled'}>Confirm decision</button></div>`:''}
+    ${!isDone&&!open?`<div class="note-actions"><button class="btn sm" data-edit="${n.id}">Resolve</button></div>`:''}</div>`}).join('');
+  $('notesList').querySelectorAll('input[type=radio]').forEach(i=>i.onchange=()=>{const id=i.name.slice(2);S.res[id]={...(S.res[id]||{}),choice:i.value,editing:true};drawNotes()});
+  $('notesList').querySelectorAll('[data-confirm]').forEach(b=>b.onclick=()=>confirmNote(b.dataset.confirm));
+  $('notesList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const id=b.dataset.edit;Object.keys(S.res).forEach(k=>S.res[k].editing=false);S.res[id]={...(S.res[id]||{}),confirmed:false,editing:true};drawNotes()});
+  bar();
+}
+function confirmNote(nid){
+  const n=S.notes.find(x=>x.id===nid),r=S.res[nid];r.confirmed=true;r.editing=false;
+  const [kind,arg]=r.choice.split(':');
+  if(n.course){
+    if(kind==='keep'){S.tentative[n.course]=arg||null}
+    if(kind==='replace'){delete S.tentative[n.course];const d=removeFromCart(n.course);S.cart.push(arg);toast(`Replaced ${d.map(nice).join(', ')} with ${nice(arg)}`);
+      // rebuild notes; keep confirmed decisions for notes that still exist
+      const old=S.res;S.notes=buildNotes();S.res={};S.notes.forEach(x=>{if(old[x.id]&&x.id!=='season'&&x.id!=='seq')S.res[x.id]=old[x.id]});drawOpr();}
+  } else if(nid==='season'&&kind==='drop'){
+    const drop=S.cart.filter(id=>{const o=C[id].opr;return o&&o.some(v=>v<30)&&!isRequired(id)});drop.forEach(removeFromCart);
+    const old=S.res;S.notes=buildNotes();S.res={};S.notes.forEach(x=>{if(old[x.id])S.res[x.id]=old[x.id]});drawOpr();toast('Removed '+drop.map(nice).join(', '));
+  }
+  drawNotes();
+}
+
+/* ---------------- Task 3: plan generation + comparison ---------------- */
+function allowed(id,t){return true} // demo forecasts must not prevent valid plans
+function makePlan(strategy){
+  const ids=[...S.cart],inCart=new Set(ids);
+  const preIn=id=>reqForYear(id).filter(p=>inCart.has(p));
+  const height={};const h=id=>height[id]??(height[id]=Math.max(0,...ids.filter(c=>preIn(c).includes(id)).map(c=>h(c)+1)));
+  const depth={};const dd=id=>depth[id]??(depth[id]=Math.max(0,...preIn(id).map(p=>dd(p)+1)));
+  const order=ids.slice().sort((a,b)=>h(b)-h(a)||dd(a)-dd(b)||a.localeCompare(b));
+  const cap=strategy==='light'?[9,17,17,17]:[17,17,17,17];
+  const load=[0,0,0,0],at={},plan=[[],[],[],[]],unplaced=[];
+  const isEl=id=>!isRequired(id);
+  for(const id of order){
+    const earliest=Math.max(0,...preIn(id).map(p=>at[p]===undefined?99:at[p]+1));
+    const validTerms=[0,1,2,3].filter(t=>t>=earliest&&allowed(id,t));
+    if(!validTerms.length){unplaced.push(id);continue}
+    let opts=validTerms.filter(t=>load[t]+C[id].cr<=cap[t]);
+    const latest=3-h(id);
+    if(opts.length){
+      const safe=opts.filter(t=>t<=latest);if(safe.length)opts=safe;
+    }else{
+      // Fallback: place in earliest/lowest-load valid term if strict credit cap is full
+      const safeValid=validTerms.filter(t=>t<=latest);
+      opts=(safeValid.length?safeValid:validTerms).slice().sort((a,b)=>load[a]-load[b]||a-b);
+      const t=opts[0];at[id]=t;load[t]+=C[id].cr;plan[t].push(id);continue;
+    }
+    const score=t=>{
+      if(strategy==='fast')return (isEl(id)?t*10:load[t])+t*.1;
+      if(strategy==='light')return load[t]+(t===0?3:0)+t*.1;
+      return load[t]+t*.1+(C[id].opr&&C[id].opr[t]<70?2:0);
+    };
+    opts.sort((a,b)=>score(a)-score(b));const t=opts[0];at[id]=t;load[t]+=C[id].cr;plan[t].push(id);
+  }
+  return {plan,unplaced,load};
+}
+function genPlans(){
+  const defs=[{k:'balanced',name:'Balanced',desc:'Spreads credits evenly; prefers semesters where courses are likely to open.'},
+    {k:'fast',name:'Specialization first',desc:'Starts your '+(SPEC[S.spec]||SPEC.general).name+' electives as early as possible.'},
+    {k:'light',name:'Light first semester',desc:'Keeps Spring 2027 light, shifts work to later semesters.'}];
+  const out=[];defs.forEach(d=>{const p=makePlan(d.k);const sig=JSON.stringify(p.plan.map(x=>x.slice().sort()));if(!out.some(o=>o.sig===sig))out.push({...d,...p,sig})});
+  S.plans=out;S.view=0;S.selected=-1;
+}
+function loadLbl(cr){return cr<=9?['light','Light']:cr<=14?['moderate','Moderate']:['heavy','Heavy']}
+function tags(id,plan){
+  const t=[];const ti=plan.findIndex(a=>a.includes(id));
+  if(id in S.tentative){const b=S.tentative[id];t.push(`<span class="tag tent">Tentative${b?' · backup '+nice(b):''}</span>`)}
+  reqForYear(id).filter(p=>plan.flat().includes(p)).forEach(p=>t.push(`<span class="tag seq">After ${nice(p)}</span>`));
+  if(!isRequired(id))t.push('<span class="tag elec">Elective</span>');
+  return t.join('');
+}
+function termsHTML(p){
+  return `<div class="terms">${p.plan.map((arr,i)=>{const cr=credits(arr),[cls,l]=loadLbl(cr);return `<div class="term"><div class="term-h"><h3>${TERMS[i]}</h3><span class="cr">${cr} credits</span><span class="load ${cls}">${l}</span><div class="muted small">${arr.length} course${arr.length===1?'':'s'}</div></div>${arr.map(id=>`<div class="pc"><b>${nice(id)}</b><span>${C[id].n} · ${C[id].cr} cr</span>${tags(id,p.plan)}</div>`).join('')||'<div class="empty">No courses</div>'}</div>`}).join('')}</div>
+  ${p.unplaced.length?`<div class="unplaced">⚠ Doesn't fit in four semesters: ${p.unplaced.map(nice).join(', ')}. Remove courses or plan a fifth semester.</div>`:''}`;
+}
+function drawPlans(){
+  $('planCards').innerHTML=S.plans.map((p,i)=>{const cr=p.plan.map(credits),max=Math.max(...cr,15),heavy=cr.indexOf(Math.max(...cr)),tent=p.plan.flat().filter(id=>id in S.tentative).length;
+    const firstEl=p.plan.findIndex(a=>a.some(id=>!isRequired(id)));
+    return `<button class="plan-card ${S.view===i?'viewing':''} ${S.selected===i?'selected':''}" data-view="${i}" aria-pressed="${S.view===i}">
+      ${S.selected===i?'<span class="badge sel">✓ Selected</span>':S.view===i?'<span class="badge view">Viewing</span>':''}
+      <h3>${p.name}</h3><p>${p.desc}</p>
+      <div class="minibars">${cr.map(c=>`<div>${c}<i class="${c>=15?'heavy':''}" style="height:${Math.max(6,c/max*100)}%"></i></div>`).join('')}</div>
+      <div class="minilabels">${TERMS.map(t=>`<span>${t.replace(' 20',' ’')}</span>`).join('')}</div>
+      <div class="plan-stats"><div>Heaviest<b>${TERMS[heavy]} · ${cr[heavy]} cr</b></div><div>Electives start<b>${firstEl<0?'—':TERMS[firstEl]}</b></div><div>Tentative courses<b>${tent}</b></div><div>Unplaced<b>${p.unplaced.length}</b></div></div>
+    </button>`}).join('');
+  const p=S.plans[S.view],sel=S.selected===S.view;
+  $('planDetail').innerHTML=`<div class="detail-head"><div><h2>${p.name}</h2><span class="muted small">${p.plan.flat().length} courses · ${credits(p.plan.flat())} credits</span></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap">${sel?`<button class="btn" id="undoSel">↺ Undo selection</button><button class="btn primary" disabled>✓ Selected</button>`:`<button class="btn primary" id="selBtn" ${p.unplaced.length?'disabled title="Some courses do not fit"':''}>Select this plan</button>`}</div></div>${termsHTML(p)}`;
+  if($('selBtn'))$('selBtn').onclick=()=>{S.selected=S.view;drawPlans();toast(p.name+' selected — click “Continue with this plan” to confirm')};
+  if($('undoSel'))$('undoSel').onclick=()=>{S.selected=-1;drawPlans();toast('Selection undone')};
+  drawConflictDemo();bar();
+}
+$('planCards').onclick=e=>{const b=e.target.closest('[data-view]');if(b){S.view=+b.dataset.view;drawPlans()}};
+
+function drawConflictDemo(){
+  const panel=$('conflictPanel');if(!panel)return;
+  const p=S.plans[S.view];if(!p){panel.innerHTML='';return}
+  // Fixed example sections for demonstrating overlap detection in the HCI prototype.
+  const slots={CSE306:['Mon',630,710],CSE416:['Mon',650,730],CSE323:['Tue',840,920],CSE331:['Tue',850,930],CSE305:['Wed',630,710],CSE320:['Wed',650,730]};
+  const conflicts=[];
+  p.plan.forEach((courses,term)=>courses.forEach((a,i)=>courses.slice(i+1).forEach(b=>{
+    const x=slots[a],y=slots[b];if(x&&y&&x[0]===y[0]&&x[1]<y[2]&&y[1]<x[2])conflicts.push(`${TERMS[term]}: ${nice(a)} / ${nice(b)}`)
+  })));
+  panel.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><h3 style="margin:0;font-size:17px">Timetable conflict check</h3><button class="btn sm" id="checkTimetable">Check schedule</button></div><div id="conflictResult" class="muted small" style="margin-top:8px">Check whether courses in the same semester overlap.</div>`;
+  $('checkTimetable').onclick=()=>{$('conflictResult').innerHTML=conflicts.length?`<b style="color:#b45309">Time conflict found:</b> ${conflicts.join(' · ')}. Move one course to another semester.`:'<b style="color:#15803d">✓ No overlapping class times detected.</b>'};
+}
+function confirmPlan(){
+  const p=S.plans[S.selected],tent=p.plan.flat().filter(id=>id in S.tentative);
+  modal(`<div class="modal-top"><div><div class="kicker">Confirm your plan</div><h2>Use “${p.name}”?</h2></div><button class="x" onclick="closeModal()" aria-label="Close">✕</button></div>
+   <p class="desc" style="margin-top:10px">${p.plan.map((a,i)=>`${TERMS[i]}: <b>${credits(a)} cr</b>`).join(' · ')}</p>
+   ${tent.length?`<div class="lockmsg">${tent.map(nice).join(', ')} ${tent.length>1?'are':'is'} Tentative. Keep the backup in mind at registration.</div>`:''}
+   <p class="desc">You can come back and pick another plan at any time.</p>
+   <div class="modal-actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" id="okPlan">Confirm plan</button></div>`);
+  $('okPlan').onclick=()=>{S.final=S.selected;closeModal();S.maxPage=4;go('p4')};
+}
+function drawFinal(){const p=S.plans[S.final];$('finalTitle').textContent='My four-semester plan · '+p.name;
+  $('finalDetail').innerHTML=`<div class="detail-head"><div><h2>${p.name}</h2><span class="muted small">${S.year} admit · ${(SPEC[S.spec]||SPEC.general).name} · ${credits(p.plan.flat())} credits</span></div><button class="btn" id="chg">Choose a different plan</button></div>${termsHTML(p)}`;
+  $('chg').onclick=()=>go('p3');}
+function printPlan(){
+  const p=S.plans[S.final];
+  $('printLayer').className='backdrop';$('printLayer').style.display='block';$('printLayer').style.overflow='auto';
+  $('printLayer').innerHTML=`<div class="sheet"><div class="no-print" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px;background:var(--bg);padding:10px;border-radius:10px"><b style="align-self:center">Print preview</b><span style="display:flex;gap:8px"><button class="btn" id="dlPlan">Download (.html)</button><button class="btn primary" id="doPrint">Print / Save as PDF</button><button class="btn ghost" id="closePrint">Close</button></span></div>
+   <h1>CoursePath — Four-Semester Plan</h1><p class="muted">${S.year} admit · ${S.type} · Computer Science · ${(SPEC[S.spec]||SPEC.general).name} · Plan: ${p.name} · ${credits(p.plan.flat())} credits</p>${termsHTML(p)}
+   <p class="muted small" style="margin-top:14px">Open Possibility Rates are estimates from past offerings, not registration guarantees. Confirm with your advisor.</p></div>`;
+  $('doPrint').onclick=()=>{try{window.print()}catch(e){toast('Printing is blocked here — use Download instead')}};
+  $('closePrint').onclick=()=>{$('printLayer').className='hidden';$('printLayer').innerHTML=''};
+  $('dlPlan').onclick=()=>{const css=[...document.querySelectorAll('style')].map(s=>s.textContent).join('');const html=`<!doctype html><html><head><meta charset="utf-8"><title>My CoursePath plan</title><style>${css}</style></head><body style="padding:20px">${$('printLayer').querySelector('.sheet').outerHTML.replace(/<div class="no-print"[\s\S]*?<\/span><\/div>/,'')}</body></html>`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download='coursepath-plan.html';a.click();toast('Plan downloaded')};
+}
+
+/* ---------------- Navigation + action bar ---------------- */
+function go(page){
+  S.page=page;['pProfile','p1','p2','p3','p4'].forEach(p=>$(p).classList.toggle('hidden',p!==page));
+  const n={pProfile:0,p1:1,p2:2,p3:3,p4:3}[page];
+  document.querySelectorAll('#stepper div').forEach(d=>{const s=+d.dataset.s;d.classList.toggle('active',s===n&&page!=='p4');d.classList.toggle('done',s<n||(page==='p4'))});
+  if(page==='p1')refresh1();
+  if(page==='p2'){drawOpr();drawNotes()}
+  if(page==='p3'){drawPlans();drawConflictDemo()};
+  if(page==='p4')drawFinal();
+  bar();window.scrollTo({top:0,behavior:'smooth'});
+}
+function bar(){
+  const back=$('backBtn'),next=$('nextBtn'),st=$('barStatus');st.className='status';back.classList.remove('hidden');next.disabled=false;
+  if(S.page==='pProfile'){$('profileTag').textContent='';back.classList.add('hidden');next.classList.add('hidden');st.textContent='';return}
+  next.classList.remove('hidden');
+  if(S.page==='p1'){back.textContent='← Edit profile';next.textContent='Make course plan →';next.disabled=!S.cart.length;st.textContent=S.cart.length?`${S.cart.length} courses · ${credits(S.cart)} credits in cart`:'Add at least one course to continue'}
+  if(S.page==='p2'&&S.publicBrowse){back.textContent='← Profile';next.textContent='Build course cart →';next.disabled=!(S.year&&S.type);st.textContent='Historical offerings · Spring and Fall 2026';return}
+  if(S.page==='p2'){const d=S.notes.filter(n=>S.res[n.id]?.confirmed).length,all=d===S.notes.length;back.textContent='← Course cart';next.textContent='Generate schedules →';next.disabled=!all;st.textContent=all?'✓ All planning notes confirmed':`Confirm all planning notes to continue (${d}/${S.notes.length})`;if(all)st.classList.add('ok')}
+  if(S.page==='p3'){back.textContent='← Availability';next.textContent='Continue with this plan →';next.disabled=S.selected<0;st.textContent=S.selected<0?'Select a plan to continue':`✓ ${S.plans[S.selected].name} selected`;if(S.selected>=0)st.classList.add('ok')}
+  if(S.page==='p4'){back.textContent='← Compare plans';next.textContent='Save as PDF / Print';st.textContent='Plan confirmed';st.classList.add('ok')}
+}
+$('backBtn').onclick=()=>{({p1:()=>go('pProfile'),p2:()=>go(S.publicBrowse?'pProfile':'p1'),p3:()=>go('p2'),p4:()=>go('p3')})[S.page]?.()};
+$('nextBtn').onclick=()=>{
+  if(S.page==='p1'){S.notes=buildNotes();const old=S.res;S.res={};S.notes.forEach(n=>{if(old[n.id])S.res[n.id]=old[n.id]});Object.keys(S.tentative).forEach(k=>{if(!S.cart.includes(k))delete S.tentative[k]});go('p2')}
+  else if(S.page==='p2'){if(S.publicBrowse){S.publicBrowse=false;go('p1')}else{genPlans();go('p3')}}
+  else if(S.page==='p3')confirmPlan();
+  else if(S.page==='p4')printPlan();
+};
+go('pProfile');
 </script>
 </body>
 </html>
